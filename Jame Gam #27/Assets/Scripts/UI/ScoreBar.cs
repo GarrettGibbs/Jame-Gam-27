@@ -48,10 +48,15 @@ public class ScoreBar : MonoBehaviour
     }
     #endregion
 
-    public void SetNumbers(float newNumber1, float newNumber2)
+    public void UpdateLeft(float updateAmount)
     {
-        number1 = newNumber1;
-        number2 = newNumber2;
+        number1 += updateAmount;
+        UpdateSliderValues();
+    }
+
+    public void UpdateRight(float updateAmount)
+    {
+        number2 += updateAmount;
         UpdateSliderValues();
     }
 
