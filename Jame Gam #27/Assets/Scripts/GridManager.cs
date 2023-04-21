@@ -93,6 +93,9 @@ public class GridManager : MonoBehaviour
         foreach(Tile tile in graph) {
             GameObject hex_go = (GameObject)Instantiate(tilePrefab, new Vector3(tile.trueX, tile.trueY, 0), Quaternion.identity, transform);
             hex_go.name = $"Tile {tile.gridX},{tile.gridY}";
+            tile.trueX = hex_go.transform.position.x;
+            tile.trueY = hex_go.transform.position.y;
+            print($"Tile {tile.gridX},{tile.gridY} is at {tile.trueX},{tile.trueY}");
             switch (tile.tileType[0]) {
                 case TileTypes.Unaccessible:
                     hex_go.GetComponent<SpriteRenderer>().color = Color.red;
