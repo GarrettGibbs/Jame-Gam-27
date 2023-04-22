@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private Tools equippedTool = Tools.None;
     [SerializeField] GridManager gridManager;
     private bool _isActing;
+    [SerializeField] int PlayerNumber;
 
     async void Awake()
     {
@@ -68,7 +69,6 @@ public class PlayerMovement : MonoBehaviour
 
     private async void FixedUpdate()
     {
-        print(equippedTool);
         //if input is triggered
         if(_direction != Vector2.zero)
         {
@@ -81,33 +81,33 @@ public class PlayerMovement : MonoBehaviour
             {
                 switch (tile.tileType[0]) {
                     case TileTypes.Tool:
-                        MovePlayer(_direction, tile);
+                        await MovePlayer(_direction, tile);
                         equippedTool = tile.tool;
+                        gridManager.UpdateTools(equippedTool, PlayerNumber);
                         break;
                     case TileTypes.Grass:
                         if (equippedTool == Tools.Mower) {
-                            //updateScore
-                            gridManager.CutGrass(tile.gridX, tile.gridY);
+                            await MowGrass(_direction, tile);
                         } else {
-                            MovePlayer(_direction, tile);
+                            await MovePlayer(_direction, tile);
                             break;
                         }
                         break;
                     case TileTypes.Leaves:
                         if (equippedTool == Tools.LeafBlower) {
-
+                            await BlowLeaves(_direction, tile);
                         } else {
-                            MovePlayer(_direction, tile);
+                            await MovePlayer(_direction, tile);
                             break;
                         }
                         break;
                     case TileTypes.Squirral:
                         if (equippedTool == Tools.Shovel) {
-
+                            await HitSquirrel(_direction, tile);
                         }
                         break;
                     default:
-                        MovePlayer(_direction, tile);
+                        await MovePlayer(_direction, tile);
                         break;
                 }
                     
@@ -115,26 +115,39 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private async void MovePlayer(Vector2 direction, Tile tile) {
+    private async Task MovePlayer(Vector2 direction, Tile tile) {
         _isMoving = true;
-        _playerAnimator.SetAnimation(_direction);
-        //float elapsedTime = 0;
+        _playerAnimator.SetAnimation(direction);
+
         _originPos = transform.position;
         _targetPos = _originPos + direction;
 
-        //increment elapsed time while moving player until time is reached
-        //while (elapsedTime < _timeToMove) {
-        //    transform.position = Vector2.Lerp(_originPos, _targetPos, (elapsedTime / _timeToMove));
-        //    elapsedTime += Time.deltaTime;
-        //    await Task.Yield();
-        //}
+
         LeanTween.move(gameObject, _targetPos, _timeToMove);
         await Task.Delay(200);
         //ensure that the player lands exactly on a tile's center
         transform.position = _targetPos;
+
         _currentTile = tile;
         _isMoving = false;
         _playerAnimator.SetAnimation(Vector2.zero);
+        await Task.Yield();
+    }
+
+    private async Task MowGrass(Vector2 direction, Tile tile) {
+        _isActing = true;
+        gridManager.CutGrass(tile.gridX, tile.gridY);
+        await Task.Delay(1000);
+        //SCORE POINTS
+        _isActing = false;
+    }
+
+    private async Task BlowLeaves(Vector2 direction, Tile tile) {
+
+    }
+
+    private async Task HitSquirrel(Vector2 direction, Tile tile) {
+
     }
 
     //private async Task MovePlayer(Vector2 direction)

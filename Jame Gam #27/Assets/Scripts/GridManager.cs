@@ -9,6 +9,8 @@ public class GridManager : MonoBehaviour
     public GameObject tilePrefab;
 
     public static Tile[,] graph;
+    private List<Tile> player1Tiles = new List<Tile>();
+    private List<Tile> player2Tiles = new List<Tile>();
 
     [SerializeField]
     private Vector3[] SpecialTiles; //z=tiletype
@@ -16,7 +18,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] int mapSizeX = 10;
     [SerializeField] int mapSizeY = 10;
 
-    //float oddRowXOffset = 0.86f;
     float zOffset = 1f;
     float xOffset = 1f;
 
@@ -31,7 +32,6 @@ public class GridManager : MonoBehaviour
     void Start() {
         GeneratePathFindingGraph();
         GenerateMapVisual();
-        //PlaceFiguresOnGraph();
     }
 
     public static Tile GetTileFromGrid(Vector2 position)
@@ -81,6 +81,12 @@ public class GridManager : MonoBehaviour
                 } else {
                     graph[x, y].neighbours.Add(null);
                 }
+            }
+        }
+        for (int x = 0; x < mapSizeX; x++) { //populate player specific graphs
+            for (int y = 0; y < mapSizeY; y++) {
+                if (x > 0 && x < 6) player1Tiles.Add(graph[x, y]);
+                else if (x > 6 && x < 12) player2Tiles.Add(graph[x, y]);
             }
         }
         //set special tiles
@@ -168,5 +174,36 @@ public class GridManager : MonoBehaviour
         ChangeTileSprite(x, y, StandardTile);
         graph[x, y].tileType[0] = TileTypes.Standard;
         graph[x, y].spriteRenderer.color = Color.white;
-    } 
+    }
+
+    public void UpdateTools(Tools tool, int player) {
+        int xValue;
+        if (player == 1) xValue = 0;
+        else xValue = 12;
+        switch (tool) {
+            case Tools.Mower:
+                graph[xValue, 2].spriteRenderer.color = Color.cyan;
+                graph[xValue, 3].spriteRenderer.color = Color.gray;
+                graph[xValue, 4].spriteRenderer.color = Color.gray;
+                break;
+            case Tools.LeafBlower:
+                graph[xValue, 2].spriteRenderer.color = Color.gray;
+                graph[xValue, 3].spriteRenderer.color = Color.cyan;
+                graph[xValue, 4].spriteRenderer.color = Color.gray;
+                break;
+            case Tools.Shovel:
+                graph[xValue, 2].spriteRenderer.color = Color.gray;
+                graph[xValue, 3].spriteRenderer.color = Color.gray;
+                graph[xValue, 4].spriteRenderer.color = Color.cyan;
+                break;
+        }
+    }
+
+    public void BlowLeaves(Vector2 direction, Tile tile) {
+
+    }
+
+    public void HitSquirrel(Tile tile) {
+
+    }
 }
