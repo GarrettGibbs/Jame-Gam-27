@@ -15,6 +15,8 @@ public class PlayerAnimator : MonoBehaviour
     private string _idleSideAnim = "Idle_Side";
     private PlayerFacing _playerFacing;
 
+    private string currentAnimation;
+
 
     void Awake()
     {
@@ -27,33 +29,41 @@ public class PlayerAnimator : MonoBehaviour
     {
         if(input.magnitude == 0)
         {
-            if (_playerFacing == PlayerFacing.up) _animator.Play(_idleUpAnim);
-            if (_playerFacing == PlayerFacing.down) _animator.Play(_idleDownAnim);
-            if (_playerFacing == PlayerFacing.side) _animator.Play(_idleSideAnim);
+            if (_playerFacing == PlayerFacing.up) _animator.Play(_idleUpAnim); currentAnimation = _idleUpAnim;
+            if (_playerFacing == PlayerFacing.down) _animator.Play(_idleDownAnim); currentAnimation = _idleDownAnim;
+            if (_playerFacing == PlayerFacing.side) _animator.Play(_idleSideAnim); currentAnimation = _idleSideAnim;
         }
         else
         {
             if(input.y > .01)
             {
                 _playerFacing = PlayerFacing.up;
+                if (currentAnimation == _walkUpAnim) return;
                 _animator.Play(_walkUpAnim);
+                currentAnimation = _walkUpAnim;
             }
             else if(input.y < -.01)
             {
                 _playerFacing = PlayerFacing.down;
+                if (currentAnimation == _walkDownAnim) return;
                 _animator.Play(_walkDownAnim);
+                currentAnimation = _walkDownAnim;
             }
             else if (input.x > .01)
             {
                 _playerFacing = PlayerFacing.side;
                 _sprite.flipX = true;
+                if(currentAnimation == _walkSideAnim) return;
                 _animator.Play(_walkSideAnim);
+                currentAnimation = _walkSideAnim;
             }
             else if (input.x < -.01)
             {
                 _playerFacing = PlayerFacing.side;
                 _sprite.flipX = false;
+                if (currentAnimation == _walkSideAnim) return;
                 _animator.Play(_walkSideAnim);
+                currentAnimation = _walkSideAnim;
             }
         }
     }

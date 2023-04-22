@@ -20,6 +20,14 @@ public class GridManager : MonoBehaviour
     float zOffset = 1f;
     float xOffset = 1f;
 
+    [SerializeField] Sprite StandardTile;
+    [SerializeField] Sprite BlowerTile;
+    [SerializeField] Sprite GrassTile;
+    [SerializeField] Sprite LeafTile;
+    [SerializeField] Sprite MowerTile;
+    [SerializeField] Sprite ShovelTile;
+    [SerializeField] Sprite SquirrelTile;
+
     void Start() {
         GeneratePathFindingGraph();
         GenerateMapVisual();
@@ -95,10 +103,16 @@ public class GridManager : MonoBehaviour
                     tileType = TileTypes.Squirral;
                     break;
             }
-            
             graph[(int)tile.x, (int)tile.y].tileType.Add(tileType);
             graph[(int)tile.x, (int)tile.y].tileType.Remove(TileTypes.Standard);
         }
+        //set tools
+        graph[0, 2].tool = Tools.Mower;
+        graph[12, 2].tool = Tools.Mower;
+        graph[0, 3].tool = Tools.LeafBlower;
+        graph[12, 3].tool = Tools.LeafBlower;
+        graph[0, 4].tool = Tools.Shovel;
+        graph[12, 4].tool = Tools.Shovel;
     }
 
     void GenerateMapVisual() {
@@ -108,30 +122,51 @@ public class GridManager : MonoBehaviour
             tile.trueX = hex_go.transform.position.x;
             tile.trueY = hex_go.transform.position.y;
             //print($"Tile {tile.gridX},{tile.gridY} is at {tile.trueX},{tile.trueY}");
+            tile.spriteRenderer = hex_go.GetComponent<SpriteRenderer>();
             switch (tile.tileType[0]) {
                 case TileTypes.Unaccessible:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.red;
+                    tile.spriteRenderer.color = Color.red;
                     break;
                 case TileTypes.Standard:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.white;
+                    tile.spriteRenderer.color = Color.white;
                     break;
                 case TileTypes.Grass:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.green;
+                    tile.spriteRenderer.color = Color.green;
+                    tile.spriteRenderer.sprite = GrassTile;
                     break;
                 case TileTypes.Leaves:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.blue;
+                    tile.spriteRenderer.color = Color.blue;
+                    tile.spriteRenderer.sprite = LeafTile;
                     break;
                 case TileTypes.Squirral:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    tile.spriteRenderer.color = Color.yellow;
+                    tile.spriteRenderer.sprite = SquirrelTile;
                     break;
                 case TileTypes.Tool:
-                    hex_go.GetComponent<SpriteRenderer>().color = Color.gray;
+                    tile.spriteRenderer.color = Color.gray;
+                    switch (tile.tool) {
+                        case Tools.Mower:
+                            tile.spriteRenderer.sprite = MowerTile;
+                            break;
+                        case Tools.LeafBlower:
+                            tile.spriteRenderer.sprite = BlowerTile;
+                            break;
+                        case Tools.Shovel:
+                            tile.spriteRenderer.sprite = ShovelTile;
+                            break;
+                    }
                     break;
             }
         }
     }
 
-    public void ChangeTileSprite(int x, int y, Sprite s) {
+    private void ChangeTileSprite(int x, int y, Sprite s) {
         graph[x,y].spriteRenderer.sprite = s;
     }
+
+    public void CutGrass(int x, int y) {
+        ChangeTileSprite(x, y, StandardTile);
+        graph[x, y].tileType[0] = TileTypes.Standard;
+        graph[x, y].spriteRenderer.color = Color.white;
+    } 
 }

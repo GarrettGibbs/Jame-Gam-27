@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum TileTypes {Unaccessible, Standard, Grass, Leaves, Squirral, Tool}
+public enum Tools {None,Mower,LeafBlower,Shovel}
 
 public class Tile
 {
@@ -13,4 +14,5 @@ public class Tile
     public float trueX;
     public float trueY;
     public SpriteRenderer spriteRenderer;
+    public Tools tool;
 }

@@ -216,6 +216,13 @@ MonoBehaviour:
   - {x: 10, y: 2, z: 3}
   mapSizeX: 13
   mapSizeY: 8
+  StandardTile: {fileID: 21300000, guid: d739b2f931070ae4c9c4ef1434f0cf2e, type: 3}
+  BlowerTile: {fileID: 21300000, guid: 40190c9f7fcde3b4a8d0e6b662afee99, type: 3}
+  GrassTile: {fileID: 21300000, guid: 1c5dedf8545fa06429e659df5f2f70b0, type: 3}
+  LeafTile: {fileID: 21300000, guid: 94629b8e19f0b114488493c9837f8889, type: 3}
+  MowerTile: {fileID: 21300000, guid: 068605c10518124459b75e8c2ffde311, type: 3}
+  ShovelTile: {fileID: 21300000, guid: 7ce27eb3e431efa49a3256143d3f1f74, type: 3}
+  SquirrelTile: {fileID: 21300000, guid: 290632916acdbba4186a19a8418dcf27, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +458,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4899064143928439232, guid: 5701cc24a38cdca4ca0ba8594edee983, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 89024236}
     - target: {fileID: 4899064143928439234, guid: 5701cc24a38cdca4ca0ba8594edee983, type: 3}
       propertyPath: m_Name
       value: PlayerOne
@@ -556,5 +567,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8394056563646776570, guid: aece1a5251d9a5c4fb715ebba0837359, type: 3}
+      propertyPath: gridManager
+      value: 
+      objectReference: {fileID: 89024236}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aece1a5251d9a5c4fb715ebba0837359, type: 3}

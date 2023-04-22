@@ -32,6 +32,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _originPos, _targetPos;
     private float _timeToMove = .2f;
 
+    //equipment
+    private Tools equippedTool = Tools.None;
+    [SerializeField] GridManager gridManager;
+    private bool _isActing;
+
     async void Awake()
     {
         _isMoving = false;
@@ -63,45 +68,97 @@ public class PlayerMovement : MonoBehaviour
 
     private async void FixedUpdate()
     {
+        print(equippedTool);
         //if input is triggered
         if(_direction != Vector2.zero)
         {
             //check if tile exists
             var tile = DoesTileExist(_direction);
             print(tile);
-            if (tile == null || tile.tileType.Contains(TileTypes.Unaccessible)) return;
+            if (_isMoving || _isActing) return;
+            if (tile == null || tile.tileType.Contains(TileTypes.Unaccessible) || (tile.tileType.Contains(TileTypes.Squirral) && equippedTool != Tools.Shovel)) return;
             else
             {
-                //if player is not already moving, move them and update their current tile
-                _playerAnimator.SetAnimation(_direction);
-                if (!_isMoving) await MovePlayer(_direction);
-                _currentTile = tile;
+                switch (tile.tileType[0]) {
+                    case TileTypes.Tool:
+                        MovePlayer(_direction, tile);
+                        equippedTool = tile.tool;
+                        break;
+                    case TileTypes.Grass:
+                        if (equippedTool == Tools.Mower) {
+                            //updateScore
+                            gridManager.CutGrass(tile.gridX, tile.gridY);
+                        } else {
+                            MovePlayer(_direction, tile);
+                            break;
+                        }
+                        break;
+                    case TileTypes.Leaves:
+                        if (equippedTool == Tools.LeafBlower) {
+
+                        } else {
+                            MovePlayer(_direction, tile);
+                            break;
+                        }
+                        break;
+                    case TileTypes.Squirral:
+                        if (equippedTool == Tools.Shovel) {
+
+                        }
+                        break;
+                    default:
+                        MovePlayer(_direction, tile);
+                        break;
+                }
+                    
             }
         }
     }
 
-    private async Task MovePlayer(Vector2 direction)
-    {
+    private async void MovePlayer(Vector2 direction, Tile tile) {
         _isMoving = true;
-
-        float elapsedTime = 0;
+        _playerAnimator.SetAnimation(_direction);
+        //float elapsedTime = 0;
         _originPos = transform.position;
         _targetPos = _originPos + direction;
 
         //increment elapsed time while moving player until time is reached
-        while (elapsedTime < _timeToMove)
-        {
-            transform.position = Vector2.Lerp(_originPos, _targetPos, (elapsedTime / _timeToMove));
-            elapsedTime += Time.deltaTime;
-            await Task.Yield();
-        }
-
+        //while (elapsedTime < _timeToMove) {
+        //    transform.position = Vector2.Lerp(_originPos, _targetPos, (elapsedTime / _timeToMove));
+        //    elapsedTime += Time.deltaTime;
+        //    await Task.Yield();
+        //}
+        LeanTween.move(gameObject, _targetPos, _timeToMove);
+        await Task.Delay(200);
         //ensure that the player lands exactly on a tile's center
         transform.position = _targetPos;
-
+        _currentTile = tile;
         _isMoving = false;
         _playerAnimator.SetAnimation(Vector2.zero);
     }
+
+    //private async Task MovePlayer(Vector2 direction)
+    //{
+    //    _isMoving = true;
+
+    //    float elapsedTime = 0;
+    //    _originPos = transform.position;
+    //    _targetPos = _originPos + direction;
+
+    //    //increment elapsed time while moving player until time is reached
+    //    while (elapsedTime < _timeToMove)
+    //    {
+    //        transform.position = Vector2.Lerp(_originPos, _targetPos, (elapsedTime / _timeToMove));
+    //        elapsedTime += Time.deltaTime;
+    //        await Task.Yield();
+    //    }
+
+    //    //ensure that the player lands exactly on a tile's center
+    //    transform.position = _targetPos;
+
+    //    _isMoving = false;
+    //    _playerAnimator.SetAnimation(Vector2.zero);
+    //}
 
     //Check whether or not the tile the player is moving to is null
     private Tile DoesTileExist(Vector2 input)
