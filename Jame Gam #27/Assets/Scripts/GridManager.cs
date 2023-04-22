@@ -118,4 +118,8 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    public void ChangeTileSprite(int x, int y, Sprite s) {
+        graph[x,y].spriteRenderer.sprite = s;
+    }
 }

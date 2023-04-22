@@ -7,10 +7,10 @@ public enum TileTypes {Unaccessible, Standard, Grass, Leaves, Squirral, Tool}
 public class Tile
 {
     public List<TileTypes> tileType = new List<TileTypes>();
-    public List<Tile> neighbours = new List<Tile>();
+    public List<Tile> neighbours = new List<Tile>(); //LEFT, RIGHT, DOWN, UP
     public int gridX;
     public int gridY;
     public float trueX;
     public float trueY;
-
+    public SpriteRenderer spriteRenderer;
 }
