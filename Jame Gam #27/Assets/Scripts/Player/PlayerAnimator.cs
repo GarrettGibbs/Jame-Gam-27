@@ -68,5 +68,23 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    public void TurnTowards(Vector2 input) {
+        if (input.y > .01) {
+            _playerFacing = PlayerFacing.up;
+        } else if (input.y < -.01) {
+            _playerFacing = PlayerFacing.down;
+        } else if (input.x > .01) {
+            _playerFacing = PlayerFacing.side;
+            _sprite.flipX = true;
+        } else if (input.x < -.01) {
+            _playerFacing = PlayerFacing.side;
+            _sprite.flipX = false;
+            if (currentAnimation == _walkSideAnim) return;
+        }
+        if (_playerFacing == PlayerFacing.up) _animator.Play(_idleUpAnim); currentAnimation = _idleUpAnim;
+        if (_playerFacing == PlayerFacing.down) _animator.Play(_idleDownAnim); currentAnimation = _idleDownAnim;
+        if (_playerFacing == PlayerFacing.side) _animator.Play(_idleSideAnim); currentAnimation = _idleSideAnim;
+    }
+
 
 }

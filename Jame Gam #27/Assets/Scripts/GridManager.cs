@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,11 +24,11 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] Sprite StandardTile;
     [SerializeField] Sprite BlowerTile;
-    [SerializeField] Sprite GrassTile;
-    [SerializeField] Sprite LeafTile;
+    //[SerializeField] Sprite GrassTile;
+    //[SerializeField] Sprite LeafTile;
     [SerializeField] Sprite MowerTile;
     [SerializeField] Sprite ShovelTile;
-    [SerializeField] Sprite SquirrelTile;
+    //[SerializeField] Sprite SquirrelTile;
 
     void Start() {
         GeneratePathFindingGraph();
@@ -56,7 +57,7 @@ public class GridManager : MonoBehaviour
 
                 graph[x, y].gridX = x;
                 graph[x, y].gridY = y;
-                graph[x, y].tileType.Add(TileTypes.Standard);
+                graph[x, y].tileType = TileTypes.Standard;
             }
         }
         for (int x = 0; x < mapSizeX; x++) { //LEFT, RIGHT, DOWN, UP
@@ -103,14 +104,14 @@ public class GridManager : MonoBehaviour
                     tileType = TileTypes.Grass;
                     break;
                 case 3:
-                    tileType = TileTypes.Leaves;
+                    tileType = TileTypes.Standard;
+                    graph[(int)tile.x, (int)tile.y].leaves++;
                     break;
                 case 4:
                     tileType = TileTypes.Squirral;
                     break;
             }
-            graph[(int)tile.x, (int)tile.y].tileType.Add(tileType);
-            graph[(int)tile.x, (int)tile.y].tileType.Remove(TileTypes.Standard);
+            graph[(int)tile.x, (int)tile.y].tileType = tileType;
         }
         //set tools
         graph[0, 2].tool = Tools.Mower;
@@ -127,53 +128,41 @@ public class GridManager : MonoBehaviour
             hex_go.name = $"Tile {tile.gridX},{tile.gridY}";
             tile.trueX = hex_go.transform.position.x;
             tile.trueY = hex_go.transform.position.y;
-            //print($"Tile {tile.gridX},{tile.gridY} is at {tile.trueX},{tile.trueY}");
-            tile.spriteRenderer = hex_go.GetComponent<SpriteRenderer>();
-            switch (tile.tileType[0]) {
+            tile.tileGraphics = hex_go.GetComponent<TileGraphics>();
+            switch (tile.tileType) {
                 case TileTypes.Unaccessible:
-                    tile.spriteRenderer.color = Color.red;
-                    break;
-                case TileTypes.Standard:
-                    tile.spriteRenderer.color = Color.white;
+                    hex_go.SetActive(false);
                     break;
                 case TileTypes.Grass:
-                    tile.spriteRenderer.color = Color.green;
-                    tile.spriteRenderer.sprite = GrassTile;
-                    break;
-                case TileTypes.Leaves:
-                    tile.spriteRenderer.color = Color.blue;
-                    tile.spriteRenderer.sprite = LeafTile;
+                    tile.tileGraphics.GrassImage.SetActive(true);
                     break;
                 case TileTypes.Squirral:
-                    tile.spriteRenderer.color = Color.yellow;
-                    tile.spriteRenderer.sprite = SquirrelTile;
+                    tile.tileGraphics.SquirrelHoleImage.SetActive(true);
+                    tile.tileGraphics.SquirrelImage.SetActive(true);
                     break;
                 case TileTypes.Tool:
-                    tile.spriteRenderer.color = Color.gray;
                     switch (tile.tool) {
                         case Tools.Mower:
-                            tile.spriteRenderer.sprite = MowerTile;
+                            tile.tileGraphics.mowerImage.SetActive(true);
                             break;
                         case Tools.LeafBlower:
-                            tile.spriteRenderer.sprite = BlowerTile;
+                            tile.tileGraphics.blowerImage.SetActive(true);
                             break;
                         case Tools.Shovel:
-                            tile.spriteRenderer.sprite = ShovelTile;
+                            tile.tileGraphics.shovelImage.SetActive(true);
                             break;
                     }
                     break;
             }
+            if(tile.leaves > 0) {
+                tile.tileGraphics.Leaves1Image.SetActive(true);
+            }
         }
     }
 
-    private void ChangeTileSprite(int x, int y, Sprite s) {
-        graph[x,y].spriteRenderer.sprite = s;
-    }
-
     public void CutGrass(int x, int y) {
-        ChangeTileSprite(x, y, StandardTile);
-        graph[x, y].tileType[0] = TileTypes.Standard;
-        graph[x, y].spriteRenderer.color = Color.white;
+        graph[x, y].tileType = TileTypes.Standard;
+        graph[x, y].tileGraphics.GrassImage.SetActive(false);
     }
 
     public void UpdateTools(Tools tool, int player) {
@@ -182,19 +171,19 @@ public class GridManager : MonoBehaviour
         else xValue = 12;
         switch (tool) {
             case Tools.Mower:
-                graph[xValue, 2].spriteRenderer.color = Color.cyan;
-                graph[xValue, 3].spriteRenderer.color = Color.gray;
-                graph[xValue, 4].spriteRenderer.color = Color.gray;
+                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case Tools.LeafBlower:
-                graph[xValue, 2].spriteRenderer.color = Color.gray;
-                graph[xValue, 3].spriteRenderer.color = Color.cyan;
-                graph[xValue, 4].spriteRenderer.color = Color.gray;
+                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case Tools.Shovel:
-                graph[xValue, 2].spriteRenderer.color = Color.gray;
-                graph[xValue, 3].spriteRenderer.color = Color.gray;
-                graph[xValue, 4].spriteRenderer.color = Color.cyan;
+                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
                 break;
         }
     }
@@ -203,7 +192,27 @@ public class GridManager : MonoBehaviour
 
     }
 
-    public void HitSquirrel(Tile tile) {
+    public async void HitSquirrel(Tile tile, int player) {
+        if(tile.tileType != TileTypes.Squirral) return;
+        tile.tileGraphics.SquirrelHoleImage.SetActive(false);
+        tile.tileGraphics.SquirrelImage.SetActive(false);
+        tile.tileType = TileTypes.Standard;
 
+        List<Tile> tempTiles = new List<Tile>();
+        if (player == 1) {
+            foreach (Tile spot in player2Tiles) {
+                if (spot.tileType == TileTypes.Standard && spot.leaves == 0) tempTiles.Add(spot);
+            }
+        } else {
+            foreach (Tile spot in player1Tiles) {
+                if (spot.tileType == TileTypes.Standard && spot.leaves == 0) tempTiles.Add(spot);
+            }
+        }
+        
+        Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
+        newSpot.tileGraphics.SquirrelHoleImage.SetActive(true);
+        await Task.Delay(750);
+        newSpot.tileGraphics.SquirrelImage.SetActive(true);
+        newSpot.tileType = TileTypes.Squirral;
     }
 }

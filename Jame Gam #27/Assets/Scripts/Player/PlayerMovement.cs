@@ -74,12 +74,19 @@ public class PlayerMovement : MonoBehaviour
         {
             //check if tile exists
             var tile = DoesTileExist(_direction);
-            print(tile);
+            //print(tile);
             if (_isMoving || _isActing) return;
-            if (tile == null || tile.tileType.Contains(TileTypes.Unaccessible) || (tile.tileType.Contains(TileTypes.Squirral) && equippedTool != Tools.Shovel)) return;
+            if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.tileType == TileTypes.Squirral && equippedTool != Tools.Shovel)) return;
+            else if(tile.leaves > 0) {
+                if (equippedTool == Tools.LeafBlower) {
+                    await BlowLeaves(_direction, tile);
+                } else {
+                    await MovePlayer(_direction, tile);
+                }
+            }
             else
             {
-                switch (tile.tileType[0]) {
+                switch (tile.tileType) {
                     case TileTypes.Tool:
                         await MovePlayer(_direction, tile);
                         equippedTool = tile.tool;
@@ -90,15 +97,6 @@ public class PlayerMovement : MonoBehaviour
                             await MowGrass(_direction, tile);
                         } else {
                             await MovePlayer(_direction, tile);
-                            break;
-                        }
-                        break;
-                    case TileTypes.Leaves:
-                        if (equippedTool == Tools.LeafBlower) {
-                            await BlowLeaves(_direction, tile);
-                        } else {
-                            await MovePlayer(_direction, tile);
-                            break;
                         }
                         break;
                     case TileTypes.Squirral:
@@ -136,18 +134,28 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MowGrass(Vector2 direction, Tile tile) {
         _isActing = true;
-        gridManager.CutGrass(tile.gridX, tile.gridY);
+        _playerAnimator.TurnTowards(direction);
         await Task.Delay(1000);
+        gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
         _isActing = false;
     }
 
     private async Task BlowLeaves(Vector2 direction, Tile tile) {
-
+        _isActing = true;
+        _playerAnimator.TurnTowards(direction);
+        await Task.Delay(1000);
+        gridManager.BlowLeaves(direction, tile);
+        //SCORE POINTS
+        _isActing = false;
     }
 
     private async Task HitSquirrel(Vector2 direction, Tile tile) {
-
+        _isActing = true;
+        _playerAnimator.TurnTowards(direction);
+        await Task.Delay(1000);
+        gridManager.HitSquirrel(tile, PlayerNumber);
+        _isActing = false;
     }
 
     //private async Task MovePlayer(Vector2 direction)
