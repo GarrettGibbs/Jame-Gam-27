@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
     public GameObject tilePrefab;
 
-    public Tile[,] graph;
+    public static Tile[,] graph;
 
     [SerializeField]
     private Vector3[] SpecialTiles; //z=tiletype
@@ -22,6 +24,16 @@ public class GridManager : MonoBehaviour
         GeneratePathFindingGraph();
         GenerateMapVisual();
         //PlaceFiguresOnGraph();
+    }
+
+    public static Tile GetTileFromGrid(Vector2 position)
+    {
+        try
+        {
+            var tile = graph[(int)position.x, (int)position.y];
+            return tile;
+        }
+        catch { return null; }
     }
 
     void GeneratePathFindingGraph() {
@@ -95,7 +107,7 @@ public class GridManager : MonoBehaviour
             hex_go.name = $"Tile {tile.gridX},{tile.gridY}";
             tile.trueX = hex_go.transform.position.x;
             tile.trueY = hex_go.transform.position.y;
-            print($"Tile {tile.gridX},{tile.gridY} is at {tile.trueX},{tile.trueY}");
+            //print($"Tile {tile.gridX},{tile.gridY} is at {tile.trueX},{tile.trueY}");
             switch (tile.tileType[0]) {
                 case TileTypes.Unaccessible:
                     hex_go.GetComponent<SpriteRenderer>().color = Color.red;
