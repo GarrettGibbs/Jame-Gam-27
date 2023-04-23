@@ -22,13 +22,9 @@ public class GridManager : MonoBehaviour
     float zOffset = 1f;
     float xOffset = 1f;
 
-    [SerializeField] Sprite StandardTile;
-    [SerializeField] Sprite BlowerTile;
-    //[SerializeField] Sprite GrassTile;
-    //[SerializeField] Sprite LeafTile;
-    [SerializeField] Sprite MowerTile;
-    [SerializeField] Sprite ShovelTile;
-    //[SerializeField] Sprite SquirrelTile;
+    //[SerializeField] Sprite StandardTile;
+    [SerializeField] GameObject[] Player1Tools;
+    [SerializeField] GameObject[] Player2Tools;
 
     void Start() {
         GeneratePathFindingGraph();
@@ -141,17 +137,18 @@ public class GridManager : MonoBehaviour
                     tile.tileGraphics.SquirrelImage.SetActive(true);
                     break;
                 case TileTypes.Tool:
-                    switch (tile.tool) {
-                        case Tools.Mower:
-                            tile.tileGraphics.mowerImage.SetActive(true);
-                            break;
-                        case Tools.LeafBlower:
-                            tile.tileGraphics.blowerImage.SetActive(true);
-                            break;
-                        case Tools.Shovel:
-                            tile.tileGraphics.shovelImage.SetActive(true);
-                            break;
-                    }
+                    hex_go.SetActive(false);
+                    //switch (tile.tool) {
+                    //    case Tools.Mower:
+                    //        tile.tileGraphics.mowerImage.SetActive(true);
+                    //        break;
+                    //    case Tools.LeafBlower:
+                    //        tile.tileGraphics.blowerImage.SetActive(true);
+                    //        break;
+                    //    case Tools.Shovel:
+                    //        tile.tileGraphics.shovelImage.SetActive(true);
+                    //        break;
+                    //}
                     break;
             }
             if(tile.leaves > 0) {
@@ -166,24 +163,24 @@ public class GridManager : MonoBehaviour
     }
 
     public void UpdateTools(Tools tool, int player) {
-        int xValue;
-        if (player == 1) xValue = 0;
-        else xValue = 12;
+        GameObject[] tempTools;
+        if (player == 1) tempTools = Player1Tools;
+        else tempTools = Player2Tools;
         switch (tool) {
             case Tools.Mower:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                tempTools[0].SetActive(false);
+                tempTools[1].SetActive(true);
+                tempTools[2].SetActive(true);
                 break;
             case Tools.LeafBlower:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                tempTools[0].SetActive(true);
+                tempTools[1].SetActive(false);
+                tempTools[2].SetActive(true);
                 break;
             case Tools.Shovel:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                tempTools[0].SetActive(true);
+                tempTools[1].SetActive(true);
+                tempTools[2].SetActive(false);
                 break;
         }
     }
