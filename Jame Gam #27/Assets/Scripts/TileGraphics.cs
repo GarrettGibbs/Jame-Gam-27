@@ -7,7 +7,7 @@ public class TileGraphics : MonoBehaviour
     public GameObject GrassImage;
     public GameObject Leaves1Image;
     public GameObject Leaves2Image;
-    public GameObject leaves3Image;
+    public GameObject Leaves3Image;
     public GameObject SquirrelHoleImage;
     public GameObject SquirrelImage;
 

@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
             var tile = DoesTileExist(_direction);
             //print(tile);
             if (_isMoving || _isActing) return;
+            _playerAnimator.TurnTowards(_direction);
             if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.tileType == TileTypes.Squirral && equippedTool != Tools.Shovel)) return;
             else if(tile.leaves > 0) {
                 if (equippedTool == Tools.LeafBlower) {
@@ -93,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
                         gridManager.UpdateTools(equippedTool, PlayerNumber);
                         break;
                     case TileTypes.Grass:
-                        if (equippedTool == Tools.Mower) {
+                        if (equippedTool == Tools.Mower && tile.leaves == 0) {
                             await MowGrass(_direction, tile);
                         } else {
                             await MovePlayer(_direction, tile);
@@ -134,28 +135,28 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MowGrass(Vector2 direction, Tile tile) {
         _isActing = true;
-        _playerAnimator.TurnTowards(direction);
         await Task.Delay(1000);
         gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
         _isActing = false;
+        await Task.Yield();
     }
 
     private async Task BlowLeaves(Vector2 direction, Tile tile) {
         _isActing = true;
-        _playerAnimator.TurnTowards(direction);
         await Task.Delay(1000);
-        gridManager.BlowLeaves(direction, tile);
+        gridManager.BlowLeaves(direction, tile, PlayerNumber);
         //SCORE POINTS
         _isActing = false;
+        await Task.Yield();
     }
 
     private async Task HitSquirrel(Vector2 direction, Tile tile) {
         _isActing = true;
-        _playerAnimator.TurnTowards(direction);
         await Task.Delay(1000);
         gridManager.HitSquirrel(tile, PlayerNumber);
         _isActing = false;
+        await Task.Yield();
     }
 
     //private async Task MovePlayer(Vector2 direction)
