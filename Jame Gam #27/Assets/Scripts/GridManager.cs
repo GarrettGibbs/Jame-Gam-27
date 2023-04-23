@@ -171,25 +171,96 @@ public class GridManager : MonoBehaviour
         else xValue = 12;
         switch (tool) {
             case Tools.Mower:
-                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case Tools.LeafBlower:
-                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case Tools.Shovel:
-                graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
                 break;
         }
     }
 
-    public void BlowLeaves(Vector2 direction, Tile tile) {
+    public void BlowLeaves(Vector2 direction, Tile tile, int player) {
+        Tile targetTile = null;
+        if (direction.y > .01) targetTile = tile.neighbours[3]; //UP
+        else if (direction.y < -.01) targetTile = tile.neighbours[2]; //DOWN
+        else if (direction.x > .01) targetTile = tile.neighbours[1]; //RIGHT
+        else if (direction.x < -.01) targetTile = tile.neighbours[0]; //LEFT
+        if (targetTile == null) { //off the side
+            tile.leaves = 0;
+            TurnOffLeaves(tile);
+            return;
+        }
+        if (targetTile.tileType == TileTypes.Squirral || targetTile.tileType == TileTypes.Tool) return;
 
+        if(targetTile.gridX == 6) { //accross the middle
+            SprayLeaves(tile.leaves, player, tile);
+            tile.leaves = 0;
+            TurnOffLeaves(tile);
+        } else { //normal moving leaves
+            targetTile.leaves = Mathf.Min(3, targetTile.leaves + tile.leaves);
+            tile.leaves = 0;
+            TurnOffLeaves(tile);
+            ShowLeaves(targetTile, targetTile.leaves);
+        }
+    }
+
+    private void TurnOffLeaves(Tile tile) {
+        tile.tileGraphics.Leaves1Image.SetActive(false);
+        tile.tileGraphics.Leaves2Image.SetActive(false);
+        tile.tileGraphics.Leaves3Image.SetActive(false);
+    }
+
+    private void ShowLeaves(Tile tile, int amount) {
+        if (amount == 1) {
+            tile.tileGraphics.Leaves1Image.SetActive(true);
+            tile.tileGraphics.Leaves2Image.SetActive(false);
+            tile.tileGraphics.Leaves3Image.SetActive(false);
+        } else if(amount == 2) {
+            tile.tileGraphics.Leaves1Image.SetActive(false);
+            tile.tileGraphics.Leaves2Image.SetActive(true);
+            tile.tileGraphics.Leaves3Image.SetActive(false);
+        } else {
+            tile.tileGraphics.Leaves1Image.SetActive(false);
+            tile.tileGraphics.Leaves2Image.SetActive(false);
+            tile.tileGraphics.Leaves3Image.SetActive(true);
+        }
+    }
+
+    private void SprayLeaves(int amount, int player, Tile tile) {
+        List<Tile> tempTiles = new List<Tile>();
+        if (player == 1) {
+            foreach (Tile spot in player2Tiles) {
+                if (spot.tileType != TileTypes.Squirral && spot.leaves == 0) tempTiles.Add(spot);
+            }
+        } else {
+            foreach (Tile spot in player1Tiles) {
+                if (spot.tileType != TileTypes.Squirral && spot.leaves == 0) tempTiles.Add(spot);
+            }
+        } 
+
+        if(amount == 1) {
+            List<Tile> tempTiles2 = new List<Tile>();
+            foreach(Tile spot in tempTiles) if(spot.gridY == tile.gridY) tempTiles2.Add(spot);
+            Tile newSpot = tempTiles2[UnityEngine.Random.Range(0, tempTiles2.Count)];
+            newSpot.leaves++;
+            ShowLeaves(newSpot, newSpot.leaves);
+        } else {
+            for (int i = 0; i < amount; i++) {
+                Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
+                newSpot.leaves++;
+                ShowLeaves(newSpot, newSpot.leaves);
+                tempTiles.Remove(newSpot);
+            }
+        }
     }
 
     public async void HitSquirrel(Tile tile, int player) {

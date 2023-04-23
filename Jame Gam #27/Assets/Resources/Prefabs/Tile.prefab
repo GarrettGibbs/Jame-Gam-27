@@ -781,7 +781,7 @@ MonoBehaviour:
   GrassImage: {fileID: 3986075770799509524}
   Leaves1Image: {fileID: 1980533991892530181}
   Leaves2Image: {fileID: 8521495812024174520}
-  leaves3Image: {fileID: 3665974262017260967}
+  Leaves3Image: {fileID: 3665974262017260967}
   SquirrelHoleImage: {fileID: 961008720639189427}
   SquirrelImage: {fileID: 3657949557433034945}
   mowerImage: {fileID: 1345374233246300600}
