@@ -397,7 +397,7 @@ TextureImporter:
         width: 92
         height: 147
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -418,7 +418,7 @@ TextureImporter:
         width: 98
         height: 160
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -426,6 +426,111 @@ TextureImporter:
       bones: []
       spriteID: 3d57e3d7e7d9b4c4a936199af7bf434b
       internalID: 1932556060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LawnMower_Top
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 417
+        width: 55
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8c6191f528f176469ef51b21a083f30
+      internalID: 466285475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LawnMower_Side
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 441
+        width: 117
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c12962fa7ec664949a35e7a6543f0709
+      internalID: -710578517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeafBlower_Top
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 390
+        width: 31
+        height: 149
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03243f113c07cbc41a3597051542a3b5
+      internalID: 1132687855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LeafBlower_Side
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 476
+        width: 141
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4fd8c044e8f64441aee836af98a70d8
+      internalID: -950715620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shovel
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 413
+        width: 180
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6fd638c4d680c54c96faf648f6665ba
+      internalID: -94155265
       vertices: []
       indices: 
       edges: []
@@ -441,11 +546,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      LawnMower_Side: -710578517
       Flamingo: 1932556060
       Tree_Green_Large: 1314005864
       House_2: 210258719
+      LawnMower_Top: 466285475
       Bush_3: -493998134
       Gnome: 1612726274
+      Shovel: -94155265
       Bush_2: 1500311637
       Fern_1: 2136686019
       Tree_Red_Small: -1250944246
@@ -454,7 +562,9 @@ TextureImporter:
       Tree_Green_Small: 1803828458
       Bush_4: -2066692630
       House_1: 1556565854
+      LeafBlower_Side: -950715620
       Tree_Red_Large: 1413054932
+      LeafBlower_Top: 1132687855
       Fern_2: -1910119289
   spritePackingTag: 
   pSDRemoveMatte: 0
