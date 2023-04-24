@@ -79,16 +79,18 @@ public class PlayerMovement : MonoBehaviour
             if (_isMoving || _isActing) return;
             _playerAnimator.TurnTowards(_direction);
             _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
-            if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.tileType == TileTypes.Squirral && equippedTool != Tools.Shovel)) return;
+            if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.hasSquirrel && equippedTool != Tools.Shovel)) return;
             else if(tile.leaves > 0) {
                 if (equippedTool == Tools.LeafBlower) {
                     await BlowLeaves(_direction, tile);
                 } else {
                     await MovePlayer(_direction, tile);
                 }
-            }
-            else
-            {
+            } else if (tile.hasSquirrel) {
+                if (equippedTool == Tools.Shovel) {
+                    await HitSquirrel(_direction, tile);
+                }
+            } else {
                 switch (tile.tileType) {
                     case TileTypes.Tool:
                         await MovePlayer(_direction, tile);
@@ -101,11 +103,6 @@ public class PlayerMovement : MonoBehaviour
                             await MowGrass(_direction, tile);
                         } else {
                             await MovePlayer(_direction, tile);
-                        }
-                        break;
-                    case TileTypes.Squirral:
-                        if (equippedTool == Tools.Shovel) {
-                            await HitSquirrel(_direction, tile);
                         }
                         break;
                     default:

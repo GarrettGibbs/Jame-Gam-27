@@ -13,9 +13,9 @@ public class TileGraphics : MonoBehaviour
     public GameObject SquirrelHoleImage;
     public GameObject SquirrelImage;
 
-    public GameObject mowerImage;
-    public GameObject blowerImage;
-    public GameObject shovelImage;
+    //public GameObject mowerImage;
+    //public GameObject blowerImage;
+    //public GameObject shovelImage;
 
     [SerializeField] private GameObject _minus;
     [SerializeField] private GameObject _plus;

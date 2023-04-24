@@ -125,12 +125,15 @@ public class GridManager : MonoBehaviour
 
     private void RandomizeStart(List<Tile> side) {
         List<Tile> tempTiles = side;
+        foreach (Tile tile in tempTiles) {
+            tile.tileType = TileTypes.Grass;
+        }
         //Squrriels
         Tile rand1 = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
-        rand1.tileType = TileTypes.Squirral;
+        rand1.hasSquirrel = true;
         tempTiles.Remove(rand1);
         Tile rand2 = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
-        rand2.tileType = TileTypes.Squirral;
+        rand2.hasSquirrel = true;
         tempTiles.Remove(rand2);
         //leaves (currently allows for stacking)
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
@@ -143,9 +146,6 @@ public class GridManager : MonoBehaviour
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
-        foreach(Tile tile in tempTiles) {
-            tile.tileType = TileTypes.Grass;
-        }
     }
 
     void GenerateMapVisual() {
@@ -164,16 +164,15 @@ public class GridManager : MonoBehaviour
                 case TileTypes.Grass:
                     tile.tileGraphics.GrassImage.SetActive(true);
                     break;
-                case TileTypes.Squirral:
-                    tile.tileGraphics.SquirrelHoleImage.SetActive(true);
-                    tile.tileGraphics.SquirrelImage.SetActive(true);
-                    break;
                 case TileTypes.Tool:
                     hex_go.SetActive(false);
                     break;
             }
             if(tile.leaves > 0) {
                 ShowLeaves(tile, tile.leaves);
+            } else if (tile.hasSquirrel) {
+                tile.tileGraphics.SquirrelHoleImage.SetActive(true);
+                tile.tileGraphics.SquirrelImage.SetActive(true);
             }
         }
     }
@@ -218,7 +217,7 @@ public class GridManager : MonoBehaviour
             TurnOffLeaves(tile, true);
             return;
         }
-        if (targetTile.tileType == TileTypes.Squirral || targetTile.tileType == TileTypes.Tool) return;
+        if (targetTile.hasSquirrel || targetTile.tileType == TileTypes.Tool) return;
 
         if(targetTile.gridX == 6) { //accross the middle
             SprayLeaves(tile.leaves, player, tile);
@@ -260,11 +259,11 @@ public class GridManager : MonoBehaviour
         List<Tile> tempTiles = new List<Tile>();
         if (player == 1) {
             foreach (Tile spot in player2Tiles) {
-                if (spot.tileType != TileTypes.Squirral && spot.leaves == 0) tempTiles.Add(spot);
+                if (!spot.hasSquirrel && spot.leaves == 0) tempTiles.Add(spot);
             }
         } else {
             foreach (Tile spot in player1Tiles) {
-                if (spot.tileType != TileTypes.Squirral && spot.leaves == 0) tempTiles.Add(spot);
+                if (!spot.hasSquirrel && spot.leaves == 0) tempTiles.Add(spot);
             }
         } 
 
@@ -285,20 +284,20 @@ public class GridManager : MonoBehaviour
     }
 
     public async void HitSquirrel(Tile tile, int player) {
-        if(tile.tileType != TileTypes.Squirral) return;
+        if(!tile.hasSquirrel) return;
         tile.tileGraphics.SquirrelHoleImage.SetActive(false);
         tile.tileGraphics.SquirrelImage.SetActive(false);
         tile.tileGraphics.ShowMinusPS();
-        tile.tileType = TileTypes.Standard;
+        tile.hasSquirrel = false;
 
         List<Tile> tempTiles = new List<Tile>();
         if (player == 1) {
             foreach (Tile spot in player2Tiles) {
-                if (spot.tileType == TileTypes.Standard && spot.leaves == 0) tempTiles.Add(spot);
+                if (spot.leaves == 0) tempTiles.Add(spot);
             }
         } else {
             foreach (Tile spot in player1Tiles) {
-                if (spot.tileType == TileTypes.Standard && spot.leaves == 0) tempTiles.Add(spot);
+                if (spot.leaves == 0) tempTiles.Add(spot);
             }
         }
         if(tempTiles.Count == 0) return;
@@ -307,6 +306,6 @@ public class GridManager : MonoBehaviour
         newSpot.tileGraphics.ShowPlusPS();
         await Task.Delay(750);
         newSpot.tileGraphics.SquirrelImage.SetActive(true);
-        newSpot.tileType = TileTypes.Squirral;
+        newSpot.hasSquirrel = true;
     }
 }
