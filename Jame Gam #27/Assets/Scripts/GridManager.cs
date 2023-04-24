@@ -22,13 +22,11 @@ public class GridManager : MonoBehaviour
     float zOffset = 1f;
     float xOffset = 1f;
 
-    [SerializeField] Sprite StandardTile;
-    [SerializeField] Sprite BlowerTile;
-    //[SerializeField] Sprite GrassTile;
-    //[SerializeField] Sprite LeafTile;
-    [SerializeField] Sprite MowerTile;
-    [SerializeField] Sprite ShovelTile;
-    //[SerializeField] Sprite SquirrelTile;
+    //[SerializeField] Sprite StandardTile;
+    [SerializeField] GameObject[] Player1Tools;
+    [SerializeField] GameObject[] Player2Tools;
+
+    int zIndex = 0;
 
     void Start() {
         GeneratePathFindingGraph();
@@ -100,16 +98,16 @@ public class GridManager : MonoBehaviour
                 case 1:
                     tileType = TileTypes.Tool;
                     break;
-                case 2:
-                    tileType = TileTypes.Grass;
-                    break;
-                case 3:
-                    tileType = TileTypes.Standard;
-                    graph[(int)tile.x, (int)tile.y].leaves++;
-                    break;
-                case 4:
-                    tileType = TileTypes.Squirral;
-                    break;
+                //case 2:
+                //    tileType = TileTypes.Grass;
+                //    break;
+                //case 3:
+                //    tileType = TileTypes.Standard;
+                //    graph[(int)tile.x, (int)tile.y].leaves++;
+                //    break;
+                //case 4:
+                //    tileType = TileTypes.Squirral;
+                //    break;
             }
             graph[(int)tile.x, (int)tile.y].tileType = tileType;
         }
@@ -120,6 +118,34 @@ public class GridManager : MonoBehaviour
         graph[12, 3].tool = Tools.LeafBlower;
         graph[0, 4].tool = Tools.Shovel;
         graph[12, 4].tool = Tools.Shovel;
+
+        RandomizeStart(player1Tiles);
+        RandomizeStart(player2Tiles);
+    }
+
+    private void RandomizeStart(List<Tile> side) {
+        List<Tile> tempTiles = side;
+        //Squrriels
+        Tile rand1 = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
+        rand1.tileType = TileTypes.Squirral;
+        tempTiles.Remove(rand1);
+        Tile rand2 = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
+        rand2.tileType = TileTypes.Squirral;
+        tempTiles.Remove(rand2);
+        //leaves (currently allows for stacking)
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        foreach(Tile tile in tempTiles) {
+            tile.tileType = TileTypes.Grass;
+        }
     }
 
     void GenerateMapVisual() {
@@ -128,6 +154,8 @@ public class GridManager : MonoBehaviour
             hex_go.name = $"Tile {tile.gridX},{tile.gridY}";
             tile.trueX = hex_go.transform.position.x;
             tile.trueY = hex_go.transform.position.y;
+            hex_go.transform.position = new Vector3(hex_go.transform.position.x, hex_go.transform.position.y, zIndex);
+            zIndex++;
             tile.tileGraphics = hex_go.GetComponent<TileGraphics>();
             switch (tile.tileType) {
                 case TileTypes.Unaccessible:
@@ -141,21 +169,11 @@ public class GridManager : MonoBehaviour
                     tile.tileGraphics.SquirrelImage.SetActive(true);
                     break;
                 case TileTypes.Tool:
-                    switch (tile.tool) {
-                        case Tools.Mower:
-                            tile.tileGraphics.mowerImage.SetActive(true);
-                            break;
-                        case Tools.LeafBlower:
-                            tile.tileGraphics.blowerImage.SetActive(true);
-                            break;
-                        case Tools.Shovel:
-                            tile.tileGraphics.shovelImage.SetActive(true);
-                            break;
-                    }
+                    hex_go.SetActive(false);
                     break;
             }
             if(tile.leaves > 0) {
-                tile.tileGraphics.Leaves1Image.SetActive(true);
+                ShowLeaves(tile, tile.leaves);
             }
         }
     }
@@ -167,24 +185,24 @@ public class GridManager : MonoBehaviour
     }
 
     public void UpdateTools(Tools tool, int player) {
-        int xValue;
-        if (player == 1) xValue = 0;
-        else xValue = 12;
+        GameObject[] tempTools;
+        if (player == 1) tempTools = Player1Tools;
+        else tempTools = Player2Tools;
         switch (tool) {
             case Tools.Mower:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                tempTools[0].SetActive(false);
+                tempTools[1].SetActive(true);
+                tempTools[2].SetActive(true);
                 break;
             case Tools.LeafBlower:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
+                tempTools[0].SetActive(true);
+                tempTools[1].SetActive(false);
+                tempTools[2].SetActive(true);
                 break;
             case Tools.Shovel:
-                //graph[xValue, 2].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 3].tileGraphics.GetComponent<SpriteRenderer>().color = Color.white;
-                //graph[xValue, 4].tileGraphics.GetComponent<SpriteRenderer>().color = Color.cyan;
+                tempTools[0].SetActive(true);
+                tempTools[1].SetActive(true);
+                tempTools[2].SetActive(false);
                 break;
         }
     }
@@ -283,7 +301,7 @@ public class GridManager : MonoBehaviour
                 if (spot.tileType == TileTypes.Standard && spot.leaves == 0) tempTiles.Add(spot);
             }
         }
-        
+        if(tempTiles.Count == 0) return;
         Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
         newSpot.tileGraphics.SquirrelHoleImage.SetActive(true);
         newSpot.tileGraphics.ShowPlusPS();

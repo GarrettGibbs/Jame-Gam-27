@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GridManager gridManager;
     private bool _isActing;
     [SerializeField] int PlayerNumber;
+    [SerializeField] ToolGraphics _toolGraphics;
 
     async void Awake()
     {
@@ -77,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
             //print(tile);
             if (_isMoving || _isActing) return;
             _playerAnimator.TurnTowards(_direction);
+            _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
             if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.tileType == TileTypes.Squirral && equippedTool != Tools.Shovel)) return;
             else if(tile.leaves > 0) {
                 if (equippedTool == Tools.LeafBlower) {
@@ -92,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
                         await MovePlayer(_direction, tile);
                         equippedTool = tile.tool;
                         gridManager.UpdateTools(equippedTool, PlayerNumber);
+                        _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
                         break;
                     case TileTypes.Grass:
                         if (equippedTool == Tools.Mower && tile.leaves == 0) {
