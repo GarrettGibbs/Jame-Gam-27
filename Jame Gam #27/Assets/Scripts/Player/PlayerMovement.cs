@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isActing;
     [SerializeField] int PlayerNumber;
     [SerializeField] ToolGraphics _toolGraphics;
+    [SerializeField] GameManager gameManager;
 
     async void Awake()
     {
@@ -70,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async void FixedUpdate()
     {
+        if(!gameManager.inGame) return;
         //if input is triggered
         if(_direction != Vector2.zero)
         {
@@ -146,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
     private async Task BlowLeaves(Vector2 direction, Tile tile) {
         _isActing = true;
         tile.tileGraphics.ShowLeavesPS();
+        gameManager.audioManager.PlaySound("LeafBlower");
         await Task.Delay(1000);
         gridManager.BlowLeaves(direction, tile, PlayerNumber);
         //SCORE POINTS
