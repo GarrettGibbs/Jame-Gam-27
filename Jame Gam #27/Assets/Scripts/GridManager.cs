@@ -181,6 +181,7 @@ public class GridManager : MonoBehaviour
     public void CutGrass(int x, int y) {
         graph[x, y].tileType = TileTypes.Standard;
         graph[x, y].tileGraphics.GrassImage.SetActive(false);
+        graph[x, y].tileGraphics.ShowMinusPS();
     }
 
     public void UpdateTools(Tools tool, int player) {
@@ -214,7 +215,7 @@ public class GridManager : MonoBehaviour
         else if (direction.x < -.01) targetTile = tile.neighbours[0]; //LEFT
         if (targetTile == null) { //off the side
             tile.leaves = 0;
-            TurnOffLeaves(tile);
+            TurnOffLeaves(tile, true);
             return;
         }
         if (targetTile.tileType == TileTypes.Squirral || targetTile.tileType == TileTypes.Tool) return;
@@ -222,7 +223,7 @@ public class GridManager : MonoBehaviour
         if(targetTile.gridX == 6) { //accross the middle
             SprayLeaves(tile.leaves, player, tile);
             tile.leaves = 0;
-            TurnOffLeaves(tile);
+            TurnOffLeaves(tile, true);
         } else { //normal moving leaves
             targetTile.leaves = Mathf.Min(3, targetTile.leaves + tile.leaves);
             tile.leaves = 0;
@@ -231,13 +232,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void TurnOffLeaves(Tile tile) {
+    private void TurnOffLeaves(Tile tile, bool offGrid = false) {
         tile.tileGraphics.Leaves1Image.SetActive(false);
         tile.tileGraphics.Leaves2Image.SetActive(false);
         tile.tileGraphics.Leaves3Image.SetActive(false);
+        if(offGrid) tile.tileGraphics.ShowMinusPS();
     }
 
-    private void ShowLeaves(Tile tile, int amount) {
+    private void ShowLeaves(Tile tile, int amount, bool offGrid = false) {
         if (amount == 1) {
             tile.tileGraphics.Leaves1Image.SetActive(true);
             tile.tileGraphics.Leaves2Image.SetActive(false);
@@ -251,6 +253,7 @@ public class GridManager : MonoBehaviour
             tile.tileGraphics.Leaves2Image.SetActive(false);
             tile.tileGraphics.Leaves3Image.SetActive(true);
         }
+        if(offGrid) tile.tileGraphics.ShowPlusPS();
     }
 
     private void SprayLeaves(int amount, int player, Tile tile) {
@@ -270,12 +273,12 @@ public class GridManager : MonoBehaviour
             foreach(Tile spot in tempTiles) if(spot.gridY == tile.gridY) tempTiles2.Add(spot);
             Tile newSpot = tempTiles2[UnityEngine.Random.Range(0, tempTiles2.Count)];
             newSpot.leaves++;
-            ShowLeaves(newSpot, newSpot.leaves);
+            ShowLeaves(newSpot, newSpot.leaves, true);
         } else {
             for (int i = 0; i < amount; i++) {
                 Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
                 newSpot.leaves++;
-                ShowLeaves(newSpot, newSpot.leaves);
+                ShowLeaves(newSpot, newSpot.leaves, true);
                 tempTiles.Remove(newSpot);
             }
         }
@@ -285,6 +288,7 @@ public class GridManager : MonoBehaviour
         if(tile.tileType != TileTypes.Squirral) return;
         tile.tileGraphics.SquirrelHoleImage.SetActive(false);
         tile.tileGraphics.SquirrelImage.SetActive(false);
+        tile.tileGraphics.ShowMinusPS();
         tile.tileType = TileTypes.Standard;
 
         List<Tile> tempTiles = new List<Tile>();
@@ -300,6 +304,7 @@ public class GridManager : MonoBehaviour
         if(tempTiles.Count == 0) return;
         Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
         newSpot.tileGraphics.SquirrelHoleImage.SetActive(true);
+        newSpot.tileGraphics.ShowPlusPS();
         await Task.Delay(750);
         newSpot.tileGraphics.SquirrelImage.SetActive(true);
         newSpot.tileType = TileTypes.Squirral;
