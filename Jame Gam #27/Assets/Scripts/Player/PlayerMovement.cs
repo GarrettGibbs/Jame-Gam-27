@@ -135,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MowGrass(Vector2 direction, Tile tile) {
         _isActing = true;
+        tile.tileGraphics.ShowGrassPS();
         await Task.Delay(1000);
         gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
@@ -144,6 +145,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task BlowLeaves(Vector2 direction, Tile tile) {
         _isActing = true;
+        tile.tileGraphics.ShowLeavesPS();
         await Task.Delay(1000);
         gridManager.BlowLeaves(direction, tile, PlayerNumber);
         //SCORE POINTS
@@ -152,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private async Task HitSquirrel(Vector2 direction, Tile tile) {
+        tile.tileGraphics.ShowDustPS();
         _isActing = true;
         await Task.Delay(1000);
         gridManager.HitSquirrel(tile, PlayerNumber);

@@ -439,7 +439,7 @@ TextureImporter:
         width: 55
         height: 95
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -460,7 +460,7 @@ TextureImporter:
         width: 117
         height: 63
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -481,7 +481,7 @@ TextureImporter:
         width: 31
         height: 149
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -502,7 +502,7 @@ TextureImporter:
         width: 141
         height: 52
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -523,7 +523,7 @@ TextureImporter:
         width: 180
         height: 55
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -531,6 +531,48 @@ TextureImporter:
       bones: []
       spriteID: b6fd638c4d680c54c96faf648f6665ba
       internalID: -94155265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Plus_Icon
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 295
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 980394399926a5347b20578d0fd57345
+      internalID: -1254218561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Minus_Icon
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 226
+        width: 80
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7759644aec1fbe43842742f404ab461
+      internalID: 95040919
       vertices: []
       indices: 
       edges: []
@@ -553,6 +595,7 @@ TextureImporter:
       LawnMower_Top: 466285475
       Bush_3: -493998134
       Gnome: 1612726274
+      Minus_Icon: 95040919
       Shovel: -94155265
       Bush_2: 1500311637
       Fern_1: 2136686019
@@ -562,6 +605,7 @@ TextureImporter:
       Tree_Green_Small: 1803828458
       Bush_4: -2066692630
       House_1: 1556565854
+      Plus_Icon: -1254218561
       LeafBlower_Side: -950715620
       Tree_Red_Large: 1413054932
       LeafBlower_Top: 1132687855
