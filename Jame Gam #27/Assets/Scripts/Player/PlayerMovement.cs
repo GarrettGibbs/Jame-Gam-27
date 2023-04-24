@@ -96,7 +96,11 @@ public class PlayerMovement : MonoBehaviour
                 switch (tile.tileType) {
                     case TileTypes.Tool:
                         await MovePlayer(_direction, tile);
+                        if (equippedTool == tile.tool) return;
+                        gameManager.audioManager.PlaySound($"Shovel_Pickup_{Random.Range(1, 3)}");
                         equippedTool = tile.tool;
+                        if (equippedTool == Tools.Mower) gameManager.audioManager.StartMowerIdle(PlayerNumber);
+                        else gameManager.audioManager.StopMowerIdle(PlayerNumber);
                         gridManager.UpdateTools(equippedTool, PlayerNumber);
                         _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
                         break;
@@ -118,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MovePlayer(Vector2 direction, Tile tile) {
         _isMoving = true;
+        gameManager.audioManager.PlaySound("Walk grass");
         _playerAnimator.SetAnimation(direction);
 
         _originPos = transform.position;
@@ -137,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MowGrass(Vector2 direction, Tile tile) {
         _isActing = true;
+        gameManager.audioManager.PlayMowerAction(PlayerNumber);
         tile.tileGraphics.ShowGrassPS();
         await Task.Delay(1000);
         gridManager.CutGrass(tile.gridX, tile.gridY);

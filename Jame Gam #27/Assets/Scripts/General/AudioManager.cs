@@ -10,26 +10,19 @@ public enum MusicType {Main,Dialogue,Battle};
 
 public class AudioManager : MonoBehaviour {
     [SerializeField] AudioClip[] allSounds;
-    //[SerializeField] AudioClip mainTheme;
-    //[SerializeField] AudioClip dialogueThemeIntro;
-    //[SerializeField] AudioClip dialogueThemeBase;
-    //[SerializeField] AudioClip dialogueThemeLayer;
-    //[SerializeField] AudioClip dialogueThemeDeath;
-    //[SerializeField] AudioClip battleThemeIntro;
-    //[SerializeField] AudioClip battleTheme;
-    //[SerializeField] AudioClip penguinAmbiance;
-    //[SerializeField] AudioClip forestAmbiance;
-    //[SerializeField] AudioClip scribble;
 
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
-    //[SerializeField] AudioSource secondary1;
-    //[SerializeField] AudioSource secondary2;
-    
+    [SerializeField] AudioSource mower1;
+    [SerializeField] AudioSource mower2;
+
+    [SerializeField] AudioClip mowerIdle;
+    [SerializeField] AudioClip mowerAction;
+
     //[SerializeField] ProgressManager pm;
 
     public static AudioManager instance;
-    public MusicType currentMusic = MusicType.Main;
+    //public MusicType currentMusic = MusicType.Main;
 
     void Awake() {
         if (instance == null) {
@@ -40,6 +33,7 @@ public class AudioManager : MonoBehaviour {
         DontDestroyOnLoad(this);
     }
 
+    //OLD
     //public async void TransitionMusic(MusicType music) {
     //    if (music == currentMusic) return;
     //    ResetAmbients();
@@ -136,6 +130,32 @@ public class AudioManager : MonoBehaviour {
 
     public void PlaySound(AudioClip a) {
         StartCoroutine(PlaySFX(a));
+    }
+
+    public void StartMowerIdle(int player) {
+        if (player == 1) {  mower1.Play(); } 
+        else if (player == 2) {  mower2.Play(); }
+    }
+
+    public async void PlayMowerAction(int player) {
+        AudioSource audioSource = null;
+        if(player == 1) audioSource = mower1;
+        else if (player == 2) audioSource = mower2;
+        audioSource.Stop();
+        audioSource.volume = .15f;
+        audioSource.clip = mowerAction;
+        audioSource.time = Random.Range(0f, 11.5f);
+        audioSource.Play();
+        await Task.Delay(1000);
+        audioSource.Stop();
+        audioSource.clip = mowerIdle;
+        audioSource.volume = .1f;
+        audioSource.Play();
+    }
+
+    public void StopMowerIdle(int player) {
+        if (player == 1) mower1.Stop();
+        else if (player == 2) mower2.Stop();
     }
 
     //public void ResetAmbients() {
