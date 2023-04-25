@@ -208,8 +208,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public bool BlowLeaves(Vector2 direction, Tile tile, int player) {
-        bool leavesRemoved = false;
+    public void BlowLeaves(Vector2 direction, Tile tile, int player) {
         Tile targetTile = null;
         if (direction.y > .01) targetTile = tile.neighbours[3]; //UP
         else if (direction.y < -.01) targetTile = tile.neighbours[2]; //DOWN
@@ -218,23 +217,19 @@ public class GridManager : MonoBehaviour
         if (targetTile == null) { //off the side
             tile.leaves = 0;
             TurnOffLeaves(tile, true);
-            leavesRemoved = true;
-            return leavesRemoved;
+            return;
         }
-        if (targetTile.hasSquirrel || targetTile.tileType == TileTypes.Tool) return; //leavesremoved
+        if (targetTile.hasSquirrel || targetTile.tileType == TileTypes.Tool) return;
 
         if(targetTile.gridX == 6) { //accross the middle
             SprayLeaves(tile.leaves, player, tile);
             tile.leaves = 0;
             TurnOffLeaves(tile, true);
-            leavesRemoved = true;
-            return leavesRemoved;
         } else { //normal moving leaves
             targetTile.leaves = Mathf.Min(3, targetTile.leaves + tile.leaves);
             tile.leaves = 0;
             TurnOffLeaves(tile);
             ShowLeaves(targetTile, targetTile.leaves);
-            return leavesRemoved;
         }
     }
 

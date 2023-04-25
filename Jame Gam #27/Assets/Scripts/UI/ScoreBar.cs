@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class ScoreBar : MonoBehaviour
 {
-    [SerializeField] private Slider _slider1;
-    [SerializeField] private Slider _slider2;
+    [SerializeField] private Slider slider1;
+    [SerializeField] private Slider slider2;
 
-    [SerializeField] private float _number1 = 50f;
-    [SerializeField] private float _number2 = 50f;
-    private float _updateAmount = 1f;
+    [SerializeField] private float number1 = 100f;
+    [SerializeField] private float number2 = 100f;
 
     void Start()
     {
         // Set the slider values to 0 initially
-        _slider1.value = 0;
-        _slider2.value = 0;
+        slider1.value = 0;
+        slider2.value = 0;
     }
 
     //void Update()
@@ -26,57 +25,57 @@ public class ScoreBar : MonoBehaviour
     #region TEST FUNCTIONS
     public void IncreaseLeft()
     {
-        _number1 += 5;
+        number1 += 5;
         UpdateSliderValues();
     }
 
     public void IncreaseRight()
     {
-        _number2 += 5;
+        number2 += 5;
         UpdateSliderValues();
     }
 
     public void DecreaseLeft()
     {
-        _number1 -= 5;
+        number1 -= 5;
         UpdateSliderValues();
     }
 
     public void DecreaseRight()
     {
-        _number2 -= 5;
+        number2 -= 5;
         UpdateSliderValues();
     }
     #endregion
 
-    public void UpdateLeft()
+    public void UpdateLeft(float updateAmount)
     {
-        _number1 -= _updateAmount;
+        number1 += updateAmount;
         UpdateSliderValues();
     }
 
-    public void UpdateRight()
+    public void UpdateRight(float updateAmount)
     {
-        _number2 -= _updateAmount;
+        number2 += updateAmount;
         UpdateSliderValues();
     }
 
     private void UpdateSliderValues()
     {
-        if (_number1 == _number2)
+        if (number1 == number2)
         {
-            _slider1.value = 0;
-            _slider2.value = 0;
+            slider1.value = 0;
+            slider2.value = 0;
         }
-        else if (_number1 > _number2)
+        else if (number1 > number2)
         {
-            _slider1.value = (_number1 - _number2) / _number1;
-            _slider2.value = 0;
+            slider1.value = (number1 - number2) / number1;
+            slider2.value = 0;
         }
         else
         {
-            _slider1.value = 0;
-            _slider2.value = (_number2 - _number1) / _number2;
+            slider1.value = 0;
+            slider2.value = (number2 - number1) / number2;
         }
     }
 }

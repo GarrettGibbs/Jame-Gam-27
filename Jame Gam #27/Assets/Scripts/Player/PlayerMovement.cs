@@ -40,9 +40,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] ToolGraphics _toolGraphics;
     [SerializeField] GameManager gameManager;
 
-    //score
-    [SerializeField] private ScoreBar _scoreBar;
-
     async void Awake()
     {
         _isMoving = false;
@@ -150,8 +147,6 @@ public class PlayerMovement : MonoBehaviour
         await Task.Delay(1000);
         gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
-        if (PlayerNumber == 1) _scoreBar.UpdateLeft();
-        else if (PlayerNumber == 2) _scoreBar.UpdateRight();
         _isActing = false;
         await Task.Yield();
     }
@@ -161,10 +156,8 @@ public class PlayerMovement : MonoBehaviour
         tile.tileGraphics.ShowLeavesPS();
         gameManager.audioManager.PlaySound("LeafBlower");
         await Task.Delay(1000);
-        var leavesRemoved = gridManager.BlowLeaves(direction, tile, PlayerNumber);
+        gridManager.BlowLeaves(direction, tile, PlayerNumber);
         //SCORE POINTS
-        if (leavesRemoved && PlayerNumber == 1) _scoreBar.UpdateLeft();
-        else if (leavesRemoved && PlayerNumber == 2) _scoreBar.UpdateRight();
         _isActing = false;
         await Task.Yield();
     }
