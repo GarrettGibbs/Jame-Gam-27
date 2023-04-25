@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2962952199748233401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2962952199748233403}
+  - component: {fileID: 2962952199748233400}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2962952199748233403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2962952199748233401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.3105206, y: 0.03891509, z: 53.982956}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2962952199748233400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2962952199748233401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8726f15474e446b65505632f93faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerOneCharacterSelector: {fileID: 0}
+  _playerTwoCharacterSelector: {fileID: 0}
+  _menuObject: {fileID: 0}
+  _playButton: {fileID: 0}
+  _playerOne: {fileID: 0}
+  _playerTwo: {fileID: 0}
+  _characterPrefabs:
+  - {fileID: 9048358487231390112, guid: d037b0bd26cb0b1499879b8d75fcc735, type: 3}
+  - {fileID: 9048358487231390112, guid: b55f3fb431120a34eb98639171e9a429, type: 3}
+  - {fileID: 9048358487231390112, guid: e0d4bb53bccb89f4cb6c6c957742f96d, type: 3}
+  - {fileID: 9048358487231390112, guid: 0eec5cb81547d0f46ac68ba9bf856da6, type: 3}
+  - {fileID: 9048358487231390112, guid: f3083583dfa4afe4da9a4cb19d417a35, type: 3}
+  - {fileID: 9048358487231390112, guid: b008ccaf813191c49b8aeb43aaf599ac, type: 3}
+  - {fileID: 9048358487231390112, guid: 143277b65a65493409cf62e848d435ef, type: 3}
+  - {fileID: 9048358487231390112, guid: 0a3940bd91f59df4c8a76393d62521f6, type: 3}
+  - {fileID: 3987710043810878605, guid: a14be64ae9b6bf84cb374f56c4c084b7, type: 3}
+  - {fileID: 9048358487231390112, guid: aa0b5c444373cf940a325288b1bbd8bf, type: 3}
+  _gridManager: {fileID: 0}
+  _3Image: {fileID: 0}
+  _2Image: {fileID: 0}
+  _1Image: {fileID: 0}
+  _MOWImage: {fileID: 0}

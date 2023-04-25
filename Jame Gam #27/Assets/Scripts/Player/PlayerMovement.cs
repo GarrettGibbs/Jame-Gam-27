@@ -37,21 +37,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GridManager gridManager;
     private bool _isActing;
     [SerializeField] int PlayerNumber;
+    [SerializeField] ToolGraphics _toolGraphics;
+    [SerializeField] GameManager gameManager;
 
     async void Awake()
     {
         _isMoving = false;
-        _playerAnimator = GetComponent<PlayerAnimator>();
 
         _playerInput = GetComponent<PlayerInput>();
         _upAction = _playerInput.actions["Up"];
         _downAction = _playerInput.actions["Down"];
         _leftAction = _playerInput.actions["Left"];
         _rightAction = _playerInput.actions["Right"];
+    }
 
-        //wait one secend to ensure grid has loaded in
-        await Task.Delay(1000);
+    public void OnCharacterInstantiate()
+    {
+        _playerAnimator = GetComponentInChildren<PlayerAnimator>();
+    }
 
+    public void OnGridSetup()
+    {
         //get starting tile, and then set player transform to that tile
         _currentTile = GridManager.graph[(int)_startingLocation.x, (int)_startingLocation.y];
         transform.position = new Vector2(_currentTile.trueX, _currentTile.trueY + _pivotOffsetY);
@@ -69,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async void FixedUpdate()
     {
+        if(!gameManager.inGame) return;
         //if input is triggered
         if(_direction != Vector2.zero)
         {
@@ -77,32 +84,35 @@ public class PlayerMovement : MonoBehaviour
             //print(tile);
             if (_isMoving || _isActing) return;
             _playerAnimator.TurnTowards(_direction);
-            if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.tileType == TileTypes.Squirral && equippedTool != Tools.Shovel)) return;
+            _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
+            if (tile == null || tile.tileType == TileTypes.Unaccessible || (tile.hasSquirrel && equippedTool != Tools.Shovel)) return;
             else if(tile.leaves > 0) {
                 if (equippedTool == Tools.LeafBlower) {
                     await BlowLeaves(_direction, tile);
                 } else {
                     await MovePlayer(_direction, tile);
                 }
-            }
-            else
-            {
+            } else if (tile.hasSquirrel) {
+                if (equippedTool == Tools.Shovel) {
+                    await HitSquirrel(_direction, tile);
+                }
+            } else {
                 switch (tile.tileType) {
                     case TileTypes.Tool:
                         await MovePlayer(_direction, tile);
+                        if (equippedTool == tile.tool) return;
+                        gameManager.audioManager.PlaySound($"Shovel_Pickup_{Random.Range(1, 3)}");
                         equippedTool = tile.tool;
+                        if (equippedTool == Tools.Mower) gameManager.audioManager.StartMowerIdle(PlayerNumber);
+                        else gameManager.audioManager.StopMowerIdle(PlayerNumber);
                         gridManager.UpdateTools(equippedTool, PlayerNumber);
+                        _toolGraphics.ChangeToolGraphic(equippedTool, _direction);
                         break;
                     case TileTypes.Grass:
                         if (equippedTool == Tools.Mower && tile.leaves == 0) {
                             await MowGrass(_direction, tile);
                         } else {
                             await MovePlayer(_direction, tile);
-                        }
-                        break;
-                    case TileTypes.Squirral:
-                        if (equippedTool == Tools.Shovel) {
-                            await HitSquirrel(_direction, tile);
                         }
                         break;
                     default:
@@ -116,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MovePlayer(Vector2 direction, Tile tile) {
         _isMoving = true;
+        //gameManager.audioManager.PlaySound("Walk grass");
         _playerAnimator.SetAnimation(direction);
 
         _originPos = transform.position;
@@ -135,6 +146,8 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MowGrass(Vector2 direction, Tile tile) {
         _isActing = true;
+        gameManager.audioManager.PlayMowerAction(PlayerNumber);
+        tile.tileGraphics.ShowGrassPS();
         await Task.Delay(1000);
         gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
@@ -144,6 +157,8 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task BlowLeaves(Vector2 direction, Tile tile) {
         _isActing = true;
+        tile.tileGraphics.ShowLeavesPS();
+        gameManager.audioManager.PlaySound("LeafBlower");
         await Task.Delay(1000);
         gridManager.BlowLeaves(direction, tile, PlayerNumber);
         //SCORE POINTS
@@ -153,6 +168,8 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task HitSquirrel(Vector2 direction, Tile tile) {
         _isActing = true;
+        tile.tileGraphics.ShowDustPS();
+        gameManager.audioManager.PlaySound("Shovel");
         await Task.Delay(1000);
         gridManager.HitSquirrel(tile, PlayerNumber);
         _isActing = false;
