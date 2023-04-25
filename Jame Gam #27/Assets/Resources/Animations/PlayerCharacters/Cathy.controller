@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4fc314d15d274cb4e9779278b1cc57bb, type: 2}
+  m_Motion: {fileID: 7400000, guid: df84d0bed31aa334b8056f468c087d1c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -46,7 +46,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8cbf467032a4e1f468952581898150df, type: 2}
+  m_Motion: {fileID: 7400000, guid: c24720c59648c1945bacbd949305a72d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -72,7 +72,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ac0e1c7acb8a21a4fbc6f3f0b5cee18f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 50062f95f1a42d64cb874b902e0fe799, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -120,7 +120,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4bf4562f45c0dad4a82968121101331a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 0f2e153174cd4fc45a4d11bb8970ad28, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -146,7 +146,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c68ace4423588bb4c9803682c2f6471e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 36915b8ad63f8294395ccd516bffd657, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -209,7 +209,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: be16d6ca9d6a5b04e9323b9b18f93538, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3e2ad41c478a0b245b916115910a816a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
