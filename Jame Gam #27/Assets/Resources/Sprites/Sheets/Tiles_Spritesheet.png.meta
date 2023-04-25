@@ -349,6 +349,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Grass_Edge
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 121
+        width: 88
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dce749cf2b9634241a8a503bc9f99f43
+      internalID: 32538170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -371,6 +392,7 @@ TextureImporter:
       Tiles_Spritesheet_8: 1533126723
       Grass_Unmowed: 1520642542
       Leaf_Pile_Medium: 1145839423
+      Grass_Edge: 32538170
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

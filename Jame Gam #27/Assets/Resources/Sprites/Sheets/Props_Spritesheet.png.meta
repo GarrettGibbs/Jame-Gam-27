@@ -544,7 +544,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -565,7 +565,7 @@ TextureImporter:
         width: 80
         height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -573,6 +573,90 @@ TextureImporter:
       bones: []
       spriteID: e7759644aec1fbe43842742f404ab461
       internalID: 95040919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MOW!
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 816
+        width: 164
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80883fe77d70b2e47a1e82ec7256b702
+      internalID: -1445654877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3
+      rect:
+        serializedVersion: 2
+        x: 924
+        y: 752
+        width: 38
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32f1c8c4bfd37184a9994983434e3e6c
+      internalID: 1826016298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2
+      rect:
+        serializedVersion: 2
+        x: 881
+        y: 752
+        width: 39
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d7444f50ffd9e1409e5718c24707ae0
+      internalID: 830448775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 752
+        width: 28
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe6bd470f75f3954cb50c951a7cdbc4e
+      internalID: 668682794
       vertices: []
       indices: 
       edges: []
@@ -588,17 +672,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      3: 1826016298
       LawnMower_Side: -710578517
       Flamingo: 1932556060
       Tree_Green_Large: 1314005864
       House_2: 210258719
       LawnMower_Top: 466285475
       Bush_3: -493998134
+      2: 830448775
       Gnome: 1612726274
       Minus_Icon: 95040919
       Shovel: -94155265
       Bush_2: 1500311637
       Fern_1: 2136686019
+      MOW!: -1445654877
       Tree_Red_Small: -1250944246
       Tree_Green_Medium: -803648069
       Bush_1: 1654631228
@@ -606,6 +693,7 @@ TextureImporter:
       Bush_4: -2066692630
       House_1: 1556565854
       Plus_Icon: -1254218561
+      1: 668682794
       LeafBlower_Side: -950715620
       Tree_Red_Large: 1413054932
       LeafBlower_Top: 1132687855

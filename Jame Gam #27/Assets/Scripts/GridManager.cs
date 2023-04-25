@@ -28,7 +28,8 @@ public class GridManager : MonoBehaviour
 
     int zIndex = 0;
 
-    void Start() {
+    public void OnStartGame()
+    {
         GeneratePathFindingGraph();
         GenerateMapVisual();
     }

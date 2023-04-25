@@ -584,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingLocation: {x: 3, y: 7}
   gridManager: {fileID: 0}
-  PlayerNumber: 0
+  PlayerNumber: 1
   _toolGraphics: {fileID: 7512427142730801878}
 --- !u!114 &4899064143928439235
 MonoBehaviour:

@@ -1256,7 +1256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingLocation: {x: 9, y: 7}
   gridManager: {fileID: 0}
-  PlayerNumber: 0
+  PlayerNumber: 2
   _toolGraphics: {fileID: 2291722119536760907}
 --- !u!114 &8394056563646776575
 MonoBehaviour:

@@ -42,17 +42,21 @@ public class PlayerMovement : MonoBehaviour
     async void Awake()
     {
         _isMoving = false;
-        _playerAnimator = GetComponent<PlayerAnimator>();
 
         _playerInput = GetComponent<PlayerInput>();
         _upAction = _playerInput.actions["Up"];
         _downAction = _playerInput.actions["Down"];
         _leftAction = _playerInput.actions["Left"];
         _rightAction = _playerInput.actions["Right"];
+    }
 
-        //wait one secend to ensure grid has loaded in
-        await Task.Delay(1000);
+    public void OnCharacterInstantiate()
+    {
+        _playerAnimator = GetComponentInChildren<PlayerAnimator>();
+    }
 
+    public void OnGridSetup()
+    {
         //get starting tile, and then set player transform to that tile
         _currentTile = GridManager.graph[(int)_startingLocation.x, (int)_startingLocation.y];
         transform.position = new Vector2(_currentTile.trueX, _currentTile.trueY + _pivotOffsetY);
