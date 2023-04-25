@@ -27,6 +27,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject[] Player2Tools;
 
     int zIndex = 0;
+    [SerializeField] GameManager gameManager;
 
     public void OnStartGame()
     {
@@ -305,7 +306,9 @@ public class GridManager : MonoBehaviour
         Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
         newSpot.tileGraphics.SquirrelHoleImage.SetActive(true);
         newSpot.tileGraphics.ShowPlusPS();
+        gameManager.audioManager.PlaySound("Squirrel_Hole");
         await Task.Delay(750);
+        gameManager.audioManager.PlaySound($"Squirrel_{UnityEngine.Random.Range(1,5)}");
         newSpot.tileGraphics.SquirrelImage.SetActive(true);
         newSpot.hasSquirrel = true;
     }

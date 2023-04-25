@@ -26,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5666917819401829475}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,8 +61,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f1fbaf287b03f054cac3b387f64d4eae, type: 3}
   - {fileID: 8300000, guid: 616ae1ee3a389a24e8cbe756bb87eb3c, type: 3}
   - {fileID: 8300000, guid: 9e0774480018ca04280dd66ae98650b0, type: 3}
+  mainTheme: {fileID: 0}
+  dialogueThemeIntro: {fileID: 0}
+  dialogueThemeBase: {fileID: 0}
+  dialogueThemeLayer: {fileID: 0}
+  dialogueThemeDeath: {fileID: 0}
+  battleThemeIntro: {fileID: 0}
+  battleTheme: {fileID: 0}
+  penguinAmbiance: {fileID: 0}
+  forestAmbiance: {fileID: 0}
+  scribble: {fileID: 0}
   musicSource: {fileID: 5666917819401829474}
   sfxSource: {fileID: 5666917819401829478}
+  secondary1: {fileID: 0}
+  secondary2: {fileID: 0}
+  currentMusic: 0
 --- !u!82 &5666917819401829474
 AudioSource:
   m_ObjectHideFlags: 0

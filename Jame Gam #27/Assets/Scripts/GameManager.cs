@@ -26,8 +26,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _1Image;
     [SerializeField] private GameObject _MOWImage;
 
+    public AudioManager audioManager;
+    public bool inGame = false;
+
+    private void Awake() 
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
     private void Start()
     {
+        inGame = true;
         _playButton.onClick.AddListener(StartGame);
     }
 
@@ -67,7 +76,5 @@ public class GameManager : MonoBehaviour
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 1, 0).setDelay(3);
         LeanTween.scale(_MOWImage, new Vector3(1.5f, 1.5f, 1.5f), 1).setDelay(3);
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 0, 1).setDelay(3);
-
-
     }
 }

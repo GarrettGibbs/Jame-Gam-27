@@ -47,7 +47,7 @@ public class TileGraphics : MonoBehaviour
 
     public async void ShowGrassPS()
     {
-        print("Here");
+        //print("Here");
         _grass.SetActive(true);
         await Task.Delay(_particleDuration);
         _grass.SetActive(false);
