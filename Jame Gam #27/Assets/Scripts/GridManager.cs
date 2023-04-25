@@ -300,11 +300,13 @@ public class GridManager : MonoBehaviour
         List<Tile> tempTiles = new List<Tile>();
         if (player == 1) {
             foreach (Tile spot in player2Tiles) {
-                if (spot.leaves == 0) tempTiles.Add(spot);
+                if (spot.gridX == 11 && (spot.gridY == 2 || spot.gridY == 3)) continue;
+                if (spot.leaves == 0 && !tile.hasSquirrel) tempTiles.Add(spot);
             }
         } else {
             foreach (Tile spot in player1Tiles) {
-                if (spot.leaves == 0) tempTiles.Add(spot);
+                if (spot.gridX == 1 && (spot.gridY == 2 || spot.gridY == 3)) continue;
+                if (spot.leaves == 0 && !tile.hasSquirrel) tempTiles.Add(spot);
             }
         }
         if(tempTiles.Count == 0) return;
