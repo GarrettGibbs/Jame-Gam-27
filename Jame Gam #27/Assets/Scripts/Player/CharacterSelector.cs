@@ -31,7 +31,7 @@ public class CharacterSelector : MonoBehaviour
             "Darcie",
             "Anna",
             "Hanna",
-            "Nicole"
+            "Stephanie"
         };
 
         //set default character
