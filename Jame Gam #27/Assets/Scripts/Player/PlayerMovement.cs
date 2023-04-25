@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     private async Task MovePlayer(Vector2 direction, Tile tile) {
         _isMoving = true;
-        gameManager.audioManager.PlaySound("Walk grass");
+        //gameManager.audioManager.PlaySound("Walk grass");
         _playerAnimator.SetAnimation(direction);
 
         _originPos = transform.position;
