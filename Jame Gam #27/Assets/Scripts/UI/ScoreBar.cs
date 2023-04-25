@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreBar : MonoBehaviour
-{
-    [SerializeField] private Slider slider1;
-    [SerializeField] private Slider slider2;
+public class ScoreBar : MonoBehaviour {
+    [SerializeField] private Slider _slider1;
+    [SerializeField] private Slider _slider2;
 
-    [SerializeField] private float number1 = 100f;
-    [SerializeField] private float number2 = 100f;
+    [SerializeField] private float _number1 = 50f;
+    [SerializeField] private float _number2 = 50f;
+    private float _updateAmount = 1f;
 
-    void Start()
-    {
+    void Start() {
         // Set the slider values to 0 initially
-        slider1.value = 0;
-        slider2.value = 0;
+        _slider1.value = 0;
+        _slider2.value = 0;
     }
 
     //void Update()
@@ -23,59 +22,47 @@ public class ScoreBar : MonoBehaviour
     //    UpdateSliderValues();
     //}
     #region TEST FUNCTIONS
-    public void IncreaseLeft()
-    {
-        number1 += 5;
+    public void IncreaseLeft() {
+        _number1 += 5;
         UpdateSliderValues();
     }
 
-    public void IncreaseRight()
-    {
-        number2 += 5;
+    public void IncreaseRight() {
+        _number2 += 5;
         UpdateSliderValues();
     }
 
-    public void DecreaseLeft()
-    {
-        number1 -= 5;
+    public void DecreaseLeft() {
+        _number1 -= 5;
         UpdateSliderValues();
     }
 
-    public void DecreaseRight()
-    {
-        number2 -= 5;
+    public void DecreaseRight() {
+        _number2 -= 5;
         UpdateSliderValues();
     }
     #endregion
 
-    public void UpdateLeft(float updateAmount)
-    {
-        number1 += updateAmount;
+    public void UpdateLeft() {
+        _number1 -= _updateAmount;
         UpdateSliderValues();
     }
 
-    public void UpdateRight(float updateAmount)
-    {
-        number2 += updateAmount;
+    public void UpdateRight() {
+        _number2 -= _updateAmount;
         UpdateSliderValues();
     }
 
-    private void UpdateSliderValues()
-    {
-        if (number1 == number2)
-        {
-            slider1.value = 0;
-            slider2.value = 0;
-        }
-        else if (number1 > number2)
-        {
-            slider1.value = (number1 - number2) / number1;
-            slider2.value = 0;
-        }
-        else
-        {
-            slider1.value = 0;
-            slider2.value = (number2 - number1) / number2;
+    private void UpdateSliderValues() {
+        if (_number1 == _number2) {
+            _slider1.value = 0;
+            _slider2.value = 0;
+        } else if (_number1 > _number2) {
+            _slider1.value = (_number1 - _number2) / _number1;
+            _slider2.value = 0;
+        } else {
+            _slider1.value = 0;
+            _slider2.value = (_number2 - _number1) / _number2;
         }
     }
 }
