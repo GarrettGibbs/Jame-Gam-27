@@ -148,6 +148,10 @@ public class GridManager : MonoBehaviour
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
         tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
+        tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)].leaves++;
     }
 
     void GenerateMapVisual() {
@@ -241,6 +245,7 @@ public class GridManager : MonoBehaviour
     }
 
     private void ShowLeaves(Tile tile, int amount, bool offGrid = false) {
+        if(tile.leaves > 3) tile.leaves = 3;
         if (amount == 1) {
             tile.tileGraphics.Leaves1Image.SetActive(true);
             tile.tileGraphics.Leaves2Image.SetActive(false);

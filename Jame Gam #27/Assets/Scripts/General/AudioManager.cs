@@ -18,11 +18,14 @@ public class AudioManager : MonoBehaviour {
 
     [SerializeField] AudioClip mowerIdle;
     [SerializeField] AudioClip mowerAction;
+    
+    [SerializeField] AudioClip clockTick;
 
     //[SerializeField] ProgressManager pm;
 
     public static AudioManager instance;
     //public MusicType currentMusic = MusicType.Main;
+    public bool startRightAway = false;
 
     void Awake() {
         if (instance == null) {
@@ -141,21 +144,33 @@ public class AudioManager : MonoBehaviour {
         AudioSource audioSource = null;
         if(player == 1) audioSource = mower1;
         else if (player == 2) audioSource = mower2;
-        audioSource.Stop();
-        audioSource.volume = .15f;
-        audioSource.clip = mowerAction;
-        audioSource.time = Random.Range(0f, 11.5f);
-        audioSource.Play();
+        //audioSource.Stop();
+        audioSource.volume = .5f;
+        //audioSource.clip = mowerAction;
+        //audioSource.time = Random.Range(0f, 11.5f);
+        //audioSource.Play();
         await Task.Delay(1000);
-        audioSource.Stop();
-        audioSource.clip = mowerIdle;
-        audioSource.volume = .1f;
-        audioSource.Play();
+        //audioSource.Stop();
+        //audioSource.clip = mowerIdle;
+        audioSource.volume = .2f;
+        //audioSource.Play();
     }
 
     public void StopMowerIdle(int player) {
         if (player == 1) mower1.Stop();
         else if (player == 2) mower2.Stop();
+    }
+
+    public async void PlayCountdown(bool fullSound) {
+        mower1.clip = clockTick;
+        mower1.volume = .5f;
+        mower1.loop = false;
+        if (!fullSound) mower1.time = 2.4f;
+        mower1.Play();
+        await Task.Delay(5000);
+        mower1.Stop();
+        mower1.clip = mowerIdle;
+        mower1.loop = true;
     }
 
     //public void ResetAmbients() {

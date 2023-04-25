@@ -32,11 +32,12 @@ public class GameManager : MonoBehaviour
     private void Awake() 
     {
         audioManager = FindObjectOfType<AudioManager>();
+        if(audioManager.startRightAway) StartGame();
+        audioManager.startRightAway = false;
     }
 
     private void Start()
     {
-        inGame = true;
         _playButton.onClick.AddListener(StartGame);
     }
 
@@ -50,16 +51,20 @@ public class GameManager : MonoBehaviour
         InitPlayers();
         _playerOne.OnCharacterInstantiate();
         _playerTwo.OnCharacterInstantiate();
+        await Task.Delay(3000);
+        inGame = true;
     }
 
     public void InitPlayers()
     {
-        Instantiate(_characterPrefabs.Where(x => x.name == _playerOneCharacterSelector.chosenCharacter).First(), _playerOne.transform, false);
-        Instantiate(_characterPrefabs.Where(x => x.name == _playerTwoCharacterSelector.chosenCharacter).First(), _playerTwo.transform, false);
+        Instantiate(_characterPrefabs.Where(x => x.name == PlayerPrefs.GetString(Player.playerOne.ToString(), "Jude")).First(), _playerOne.transform, false);
+        Instantiate(_characterPrefabs.Where(x => x.name == PlayerPrefs.GetString(Player.playerTwo.ToString(), "Jude")).First(), _playerTwo.transform, false);
     }
 
     public void StartCountdownAnimation()
     {
+        ResetCountdown();
+        audioManager.PlayCountdown(false);
         _menuObject.SetActive(false);
         LeanTween.alphaCanvas(_3Image.GetComponent<CanvasGroup>(), 1, 0);
         LeanTween.scale(_3Image, new Vector3(1.5f, 1.5f, 1.5f), 1);
@@ -76,5 +81,12 @@ public class GameManager : MonoBehaviour
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 1, 0).setDelay(3);
         LeanTween.scale(_MOWImage, new Vector3(1.5f, 1.5f, 1.5f), 1).setDelay(3);
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 0, 1).setDelay(3);
+    }
+
+    private void ResetCountdown() {
+        LeanTween.alphaCanvas(_3Image.GetComponent<CanvasGroup>(), 0, 0);
+        LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
+        LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
+        LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 0, 0);
     }
 }

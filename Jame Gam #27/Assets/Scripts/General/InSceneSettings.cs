@@ -26,7 +26,7 @@ public class InSceneSettings : MonoBehaviour
     }
 
     public void ToggleSettingsPanel() {
-        //levelManager.audioManager.PlaySound("Click");
+        gameManager.audioManager.PlaySound("Switch_Click");
         //if (levelManager.respawning || levelManager.dialogueManager.inConversation || levelManager.gameEnd) return;
         if (!SettingsOpen) {
             gameManager.inGame = false;
@@ -51,28 +51,30 @@ public class InSceneSettings : MonoBehaviour
     }
 
     public async void RestartScene() {
-        //levelManager.audioManager.PlaySound("Click");
+        gameManager.audioManager.PlaySound("Switch_Click");
+        gameManager.audioManager.startRightAway = true;
         //if (levelManager.respawning || levelManager.gameEnd) return;
         //levelManager.respawning = true;
-        //Time.timeScale = 1f;
+        Time.timeScale = 1f;
         //levelManager.circleTransition.CloseBlackScreen();
         //levelManager.progressManager.firstTimeAtMenu = false;
-        await Task.Delay(1000);
+        //await Task.Delay(1000);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public async void ReturnToMenu() {
-        //levelManager.audioManager.PlaySound("Click");
+        gameManager.audioManager.PlaySound("Switch_Click");
         //if (levelManager.respawning || levelManager.gameEnd) return;
         //levelManager.respawning = true;
-        //Time.timeScale = 1f;
+        Time.timeScale = 1f;
         //levelManager.circleTransition.CloseBlackScreen();
-        await Task.Delay(1000);
-        SceneManager.LoadScene(0);
+        //await Task.Delay(1000);
+        //SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     } 
 
     public void ToggleFullscreen() {
-        //levelManager.audioManager.PlaySound("Click");
+        gameManager.audioManager.PlaySound("Switch_Click");
         if (fullscreenToggle.isOn) {
             Screen.fullScreen = true;
             PlayerPrefs.SetInt(fullscreenKey, 1);

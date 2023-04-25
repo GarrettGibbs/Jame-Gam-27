@@ -11,9 +11,10 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] private Button _nextButton;
     [SerializeField] private Button _previousButton;
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] GameManager _gameManager;
 
     public Player player;
-    public string chosenCharacter;
+    //public string chosenCharacter;
 
     private string[] _names;
     private int _characterIndex;
@@ -35,10 +36,17 @@ public class CharacterSelector : MonoBehaviour
         };
 
         //set default character
-        _characterIndex = 0;
+        _characterIndex = 50;
+        string savedName = PlayerPrefs.GetString(player.ToString(), "Jude");
+        for (int i = 0; i < _names.Length; i++) {
+            if(savedName == _names[i]) {
+                _characterIndex = i;
+                break;
+            }
+        }
         _animator.Play(_names[_characterIndex]);
         _nameText.text = _names[_characterIndex];
-        chosenCharacter = _names[_characterIndex];
+        //chosenCharacter = _names[_characterIndex];
 
         //add button handlers
         _nextButton.onClick.AddListener(OnClickNext);
@@ -51,7 +59,9 @@ public class CharacterSelector : MonoBehaviour
         else _characterIndex++;
         _animator.Play(_names[_characterIndex]);
         _nameText.text = _names[_characterIndex];
-        chosenCharacter = _names[_characterIndex];
+        //chosenCharacter = _names[_characterIndex];
+        PlayerPrefs.SetString(player.ToString(), _names[_characterIndex]);
+        _gameManager.audioManager.PlaySound("Switch_Click");
     }
 
     private void OnClickPrevious()
@@ -60,6 +70,7 @@ public class CharacterSelector : MonoBehaviour
         else _characterIndex--;
         _animator.Play(_names[_characterIndex]);
         _nameText.text = _names[_characterIndex];
-        chosenCharacter = _names[_characterIndex];
+        PlayerPrefs.SetString(player.ToString(), _names[_characterIndex]);
+        _gameManager.audioManager.PlaySound("Switch_Click");
     }
 }
