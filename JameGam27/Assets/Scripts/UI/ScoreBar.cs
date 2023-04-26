@@ -56,8 +56,8 @@ public class ScoreBar : MonoBehaviour {
     #endregion
 
     public void UpdateLeft(int updateAmount) {
-        print(_number1);
-        print(updateAmount);
+        //print(_number1);
+        //print(updateAmount);
         _number1 -= updateAmount;
         if (_number1 < 0)
         {
