@@ -3362,12 +3362,12 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 3492d8eaf15ab0e44aa5b11ccbbe5e98, type: 3}
     - target: {fileID: 5666917819401829474, guid: cd3121051fb91624a95f549ec87a140e, type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 5666917819401829474, guid: cd3121051fb91624a95f549ec87a140e, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 968cda2dddc0d6449a021ce55b1579d1, type: 3}
+      objectReference: {fileID: 8300000, guid: bfc8cd0989f8809448db47c13b250b6b, type: 3}
     - target: {fileID: 5666917819401829474, guid: cd3121051fb91624a95f549ec87a140e, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
