@@ -13,6 +13,11 @@ public class ScoreBar : MonoBehaviour {
 
     [SerializeField] TMP_Text player1Name;
     [SerializeField] TMP_Text player2Name;
+
+    [SerializeField] private ParticleSystem _player1Plus;
+    [SerializeField] private ParticleSystem _player2Plus;
+    [SerializeField] private ParticleSystem _player1Minus;
+    [SerializeField] private ParticleSystem _player2Minus;
     //private float _updateAmount = 1f;
 
     void Start() {
@@ -51,12 +56,35 @@ public class ScoreBar : MonoBehaviour {
     #endregion
 
     public void UpdateLeft(int updateAmount) {
+        print(_number1);
+        print(updateAmount);
         _number1 -= updateAmount;
+        if (_number1 < 0)
+        {
+            _player1Plus.Play();
+            _player2Minus.Play();
+        }
+        else 
+        { 
+            _player1Minus.Play();
+            _player2Plus.Play();
+        } 
+
         UpdateSliderValues();
     }
 
     public void UpdateRight(int updateAmount) {
         _number2 -= updateAmount;
+        if (_number1 < 0)
+        {
+            _player2Plus.Play();
+            _player1Minus.Play();
+        }
+        else
+        {
+            _player2Minus.Play();
+            _player1Plus.Play();
+        }
         UpdateSliderValues();
     }
 

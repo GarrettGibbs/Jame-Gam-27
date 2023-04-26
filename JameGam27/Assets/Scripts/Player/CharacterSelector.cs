@@ -44,13 +44,18 @@ public class CharacterSelector : MonoBehaviour
                 break;
             }
         }
-        _animator.Play(_names[_characterIndex]);
         _nameText.text = _names[_characterIndex];
+        _animator.Play(savedName);
         //chosenCharacter = _names[_characterIndex];
 
         //add button handlers
         _nextButton.onClick.AddListener(OnClickNext);
         _previousButton.onClick.AddListener(OnClickPrevious);
+    }
+
+    private void OnEnable()
+    {
+        _animator.Play(_nameText.text);
     }
 
     private void OnClickNext()
