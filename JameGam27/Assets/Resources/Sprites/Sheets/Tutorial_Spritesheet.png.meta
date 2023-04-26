@@ -124,7 +124,7 @@ TextureImporter:
         width: 281
         height: 184
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -145,7 +145,7 @@ TextureImporter:
         width: 275
         height: 181
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -166,7 +166,7 @@ TextureImporter:
         width: 280
         height: 210
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -174,6 +174,69 @@ TextureImporter:
       bones: []
       spriteID: e00adc09391e48947a463276b0432333
       internalID: -1107145723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keys_Re
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 65
+        width: 281
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 792d2efa9bc164f40af983e5576cf3aa
+      internalID: -1024078793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Keys_Blu
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 68
+        width: 275
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e04979cc849f7ba48935eb823fd9b07e
+      internalID: -1707726699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Arro
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 46
+        width: 280
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48af2a00418c10f47a86d3a176e6cc55
+      internalID: -1859782340
       vertices: []
       indices: 
       edges: []
@@ -190,8 +253,11 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Arrow: -1107145723
+      Keys_Blu: -1707726699
       Keys_Red: 355675482
       Keys_Blue: -963580698
+      Arro: -1859782340
+      Keys_Re: -1024078793
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
