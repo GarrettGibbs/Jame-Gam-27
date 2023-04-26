@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI timerText;
-    private float startingTime = 60f;
+    private float startingTime = 90f;
     private float currentTime;
     private bool timerActive;
     [SerializeField] GameManager gameManager;
     private bool timerSoundStarted = false;
+    private bool spawned1Squirrels = false;
+    private bool spawned2Squirrels = false;
 
     public void StartTimer() {
         currentTime = startingTime;
@@ -31,6 +33,14 @@ public class Timer : MonoBehaviour {
                 timerSoundStarted = true;
                 timerText.color = Color.red;
                 //timerText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            } else if(currentTime <= 60f && !spawned1Squirrels) {
+                spawned1Squirrels = true;
+                gameManager._gridManager.SpawnSpquirrel(1);
+                gameManager._gridManager.SpawnSpquirrel(2);
+            } else if(currentTime <= 30f && !spawned2Squirrels) {
+                spawned2Squirrels = true;
+                gameManager._gridManager.SpawnSpquirrel(1);
+                gameManager._gridManager.SpawnSpquirrel(2);
             }
         }
     }

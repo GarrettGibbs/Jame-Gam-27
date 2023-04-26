@@ -16,6 +16,7 @@ public class InSceneSettings : MonoBehaviour
 
     readonly string fullscreenKey = "fullscreen";
     public bool gameEnded = false;
+    public bool gameStarted = false;
 
     private void Start() {
         if(PlayerPrefs.GetInt(fullscreenKey, 1) == 1) {
@@ -36,7 +37,7 @@ public class InSceneSettings : MonoBehaviour
             settingPanel.SetActive(true);
             Time.timeScale = 0;
         } else {
-            gameManager.inGame = true;
+            if(gameStarted) gameManager.inGame = true;
             SettingsOpen = false;
             settingPanel.SetActive(false);
             Time.timeScale = 1f;

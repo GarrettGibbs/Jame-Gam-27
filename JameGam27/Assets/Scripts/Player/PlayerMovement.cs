@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using UnityEditor.Rendering;
-using UnityEditor.U2D.Path.GUIFramework;
+//using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] int PlayerNumber;
     [SerializeField] ToolGraphics _toolGraphics;
     [SerializeField] GameManager gameManager;
+
+    private int grassRemaining = 40;
 
     async void Awake()
     {
@@ -149,10 +151,11 @@ public class PlayerMovement : MonoBehaviour
         gameManager.audioManager.PlayMowerAction(PlayerNumber);
         tile.tileGraphics.ShowGrassPS();
         await Task.Delay(1000);
-        if (PlayerNumber == 1) gameManager.scoreBar.UpdateLeft();
-        else if (PlayerNumber == 2) gameManager.scoreBar.UpdateRight();
+        if (PlayerNumber == 1) gameManager.scoreBar.UpdateLeft(2);
+        else if (PlayerNumber == 2) gameManager.scoreBar.UpdateRight(2);
         gridManager.CutGrass(tile.gridX, tile.gridY);
-        //SCORE POINTS
+        grassRemaining--;
+        if (grassRemaining <= 0) gameManager.EndGame(PlayerNumber);
         _isActing = false;
         await Task.Yield();
     }

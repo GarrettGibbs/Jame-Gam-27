@@ -219,6 +219,11 @@ public class GridManager : MonoBehaviour
         else if (direction.x > .01) targetTile = tile.neighbours[1]; //RIGHT
         else if (direction.x < -.01) targetTile = tile.neighbours[0]; //LEFT
         if (targetTile == null) { //off the side
+            if (player == 1) {
+                gameManager.scoreBar.UpdateLeft(tile.leaves);
+            } else if (player == 2) {
+                gameManager.scoreBar.UpdateRight(tile.leaves);
+            } 
             tile.leaves = 0;
             TurnOffLeaves(tile, true);
             return;
@@ -226,6 +231,13 @@ public class GridManager : MonoBehaviour
         if (targetTile.hasSquirrel || targetTile.tileType == TileTypes.Tool) return;
 
         if(targetTile.gridX == 6) { //accross the middle
+            if (player == 1) {
+                gameManager.scoreBar.UpdateLeft(tile.leaves);
+                gameManager.scoreBar.UpdateRight(-tile.leaves);
+            } else if (player == 2) {
+                gameManager.scoreBar.UpdateRight(tile.leaves);
+                gameManager.scoreBar.UpdateLeft(-tile.leaves);
+            }
             SprayLeaves(tile.leaves, player, tile);
             tile.leaves = 0;
             TurnOffLeaves(tile, true);
@@ -290,32 +302,36 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public async void HitSquirrel(Tile tile, int player) {
+    public void HitSquirrel(Tile tile, int player) {
         if(!tile.hasSquirrel) return;
         tile.tileGraphics.SquirrelHoleImage.SetActive(false);
         tile.tileGraphics.SquirrelImage.SetActive(false);
         tile.tileGraphics.ShowMinusPS();
         tile.hasSquirrel = false;
 
+        SpawnSpquirrel(player);
+    }
+
+    public async void SpawnSpquirrel(int player) {
         List<Tile> tempTiles = new List<Tile>();
         if (player == 1) {
             foreach (Tile spot in player2Tiles) {
                 if (spot.gridX == 11 && (spot.gridY == 2 || spot.gridY == 3)) continue;
-                if (spot.leaves == 0 && !tile.hasSquirrel) tempTiles.Add(spot);
+                if (spot.leaves == 0 && !spot.hasSquirrel) tempTiles.Add(spot);
             }
         } else {
             foreach (Tile spot in player1Tiles) {
                 if (spot.gridX == 1 && (spot.gridY == 2 || spot.gridY == 3)) continue;
-                if (spot.leaves == 0 && !tile.hasSquirrel) tempTiles.Add(spot);
+                if (spot.leaves == 0 && !spot.hasSquirrel) tempTiles.Add(spot);
             }
         }
-        if(tempTiles.Count == 0) return;
+        if (tempTiles.Count == 0) return;
         Tile newSpot = tempTiles[UnityEngine.Random.Range(0, tempTiles.Count)];
         newSpot.tileGraphics.SquirrelHoleImage.SetActive(true);
         newSpot.tileGraphics.ShowPlusPS();
         gameManager.audioManager.PlaySound("Squirrel_Hole");
         await Task.Delay(750);
-        gameManager.audioManager.PlaySound($"Squirrel_{UnityEngine.Random.Range(1,5)}");
+        gameManager.audioManager.PlaySound($"Squirrel_{UnityEngine.Random.Range(1, 5)}");
         newSpot.tileGraphics.SquirrelImage.SetActive(true);
         newSpot.hasSquirrel = true;
     }

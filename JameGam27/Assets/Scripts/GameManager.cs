@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerMovement _playerOne;
     [SerializeField] private PlayerMovement _playerTwo;
     [SerializeField] private GameObject[] _characterPrefabs;
-    [SerializeField] private GridManager _gridManager;
-
 
     [Header("Countdown")]
     [SerializeField] private GameObject _3Image;
@@ -36,6 +34,7 @@ public class GameManager : MonoBehaviour
     public ScoreBar scoreBar;
     [SerializeField] InSceneSettings settings;
     public bool inGame = false;
+    public GridManager _gridManager;
 
     private void Awake() 
     {
@@ -63,6 +62,7 @@ public class GameManager : MonoBehaviour
         _playerTwo.OnCharacterInstantiate();
         await Task.Delay(3000);
         inGame = true;
+        settings.gameStarted = true;
         timer.StartTimer();
     }
 
@@ -97,16 +97,19 @@ public class GameManager : MonoBehaviour
     private void ResetCountdown() {
         LeanTween.alphaCanvas(_3Image.GetComponent<CanvasGroup>(), 0, 0);
         LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
-        LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
+        LeanTween.alphaCanvas(_1Image.GetComponent<CanvasGroup>(), 0, 0);
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 0, 0);
     }
 
-    public async void EndGame() {
+    public async void EndGame(int winningPlayer = 50) {
         inGame = false;
         settings.gameEnded = true;
         audioManager.StopMowerIdle(1);
         audioManager.StopMowerIdle(2);
-        int winner = scoreBar.GetWinner();
+        audioManager.PlaySound("Victory");
+        int winner;
+        if (winningPlayer != 50) winner = winningPlayer;
+        else winner = scoreBar.GetWinner();
         if (winner == 0) _WinnerText.text = "TIE!";
         else if (winner == 1) _WinnerText.text = $"{PlayerPrefs.GetString(Player.playerOne.ToString()).ToUpper()} WINS!";
         else if (winner == 2) _WinnerText.text = $"{PlayerPrefs.GetString(Player.playerTwo.ToString()).ToUpper()} WINS!";
