@@ -15,11 +15,12 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource mower1;
     [SerializeField] AudioSource mower2;
+    [SerializeField] AudioSource countdown;
 
     [SerializeField] AudioClip mowerIdle;
     [SerializeField] AudioClip mowerAction;
     
-    [SerializeField] AudioClip clockTick;
+    //[SerializeField] AudioClip clockTick;
 
     //[SerializeField] ProgressManager pm;
 
@@ -35,81 +36,6 @@ public class AudioManager : MonoBehaviour {
         }
         DontDestroyOnLoad(this);
     }
-
-    //OLD
-    //public async void TransitionMusic(MusicType music) {
-    //    if (music == currentMusic) return;
-    //    ResetAmbients();
-    //    currentMusic = music;
-    //    LeanTween.value(gameObject, .15f, 0f, 1f).setOnUpdate((float val) => {
-    //        musicSource.volume = val;
-    //    });
-    //    await Task.Delay(1010);
-    //    switch (music) {
-    //        case MusicType.Main:
-    //            musicSource.clip = mainTheme;
-    //            musicSource.Play();
-    //            musicSource.volume = .2f;
-    //            break;
-    //        case MusicType.Dialogue:
-    //            PlayDialogue();
-    //            return;
-    //        case MusicType.Battle:
-    //            PlayBattleMusic();
-    //            break;
-    //    }
-        
-    //    //LeanTween.value(gameObject, .0f, .15f, .4f).setOnUpdate((float val) => {
-    //    //    musicSource.volume = val;
-    //    //});
-    //}
-
-
-    //private async void PlayDialogue() {
-    //    musicSource.clip = dialogueThemeIntro;
-    //    musicSource.Play();
-    //    musicSource.volume = .2f;
-    //    await Task.Delay(15484);
-    //    //if (pm.leftCutscene == true) return;
-    //    musicSource.clip = dialogueThemeBase;
-    //    musicSource.Play();
-    //    secondary1.clip = dialogueThemeLayer;
-    //    secondary1.Play();
-    //    secondary1.volume = .2f;
-    //}
-
-    //public async void PlayScribble() {
-    //    secondary2.clip = scribble;
-    //    secondary2.time = Random.Range(0f, scribble.length);
-    //    secondary2.Play();
-    //    secondary2.volume = 1f;
-    //    await Task.Delay(1500);
-    //    secondary2.Stop();
-    //}
-
-    //private async void PlayBattleMusic() {
-    //    //PlayForestAmbiance();
-    //    await Task.Delay(1000);
-    //    musicSource.clip = battleThemeIntro;
-    //    musicSource.Play();
-    //    musicSource.volume = .2f;
-    //    await Task.Delay(1667);
-    //    musicSource.clip = battleTheme;
-    //    musicSource.Play();
-    //}
-
-    //public void PlayForestAmbiance() {
-    //    secondary1.clip = forestAmbiance;
-    //    secondary1.Play();
-    //    secondary1.volume = 1f;
-    //}
-
-    //public void PlayPenguinAmbiance() {
-    //    if(secondary2.clip == penguinAmbiance) return;
-    //    secondary2.clip = penguinAmbiance;
-    //    secondary2.Play();
-    //    secondary2.volume = 1f;
-    //}
 
     IEnumerator PlaySFX(AudioClip clip) {
         //musicSource.volume = .4f;
@@ -161,17 +87,86 @@ public class AudioManager : MonoBehaviour {
         else if (player == 2) mower2.Stop();
     }
 
-    public async void PlayCountdown(bool fullSound) {
-        mower1.clip = clockTick;
-        mower1.volume = .5f;
-        mower1.loop = false;
-        if (!fullSound) mower1.time = 2.4f;
-        mower1.Play();
-        await Task.Delay(5000);
-        mower1.Stop();
-        mower1.clip = mowerIdle;
-        mower1.loop = true;
+    public void PlayCountdown(bool fullSound) {
+        if (!fullSound) countdown.time = 2.4f;
+        else countdown.time = 0f;
+        countdown.Play();
     }
+
+    //OLD
+    //public async void TransitionMusic(MusicType music) {
+    //    if (music == currentMusic) return;
+    //    ResetAmbients();
+    //    currentMusic = music;
+    //    LeanTween.value(gameObject, .15f, 0f, 1f).setOnUpdate((float val) => {
+    //        musicSource.volume = val;
+    //    });
+    //    await Task.Delay(1010);
+    //    switch (music) {
+    //        case MusicType.Main:
+    //            musicSource.clip = mainTheme;
+    //            musicSource.Play();
+    //            musicSource.volume = .2f;
+    //            break;
+    //        case MusicType.Dialogue:
+    //            PlayDialogue();
+    //            return;
+    //        case MusicType.Battle:
+    //            PlayBattleMusic();
+    //            break;
+    //    }
+
+    //    //LeanTween.value(gameObject, .0f, .15f, .4f).setOnUpdate((float val) => {
+    //    //    musicSource.volume = val;
+    //    //});
+    //}
+
+
+    //private async void PlayDialogue() {
+    //    musicSource.clip = dialogueThemeIntro;
+    //    musicSource.Play();
+    //    musicSource.volume = .2f;
+    //    await Task.Delay(15484);
+    //    //if (pm.leftCutscene == true) return;
+    //    musicSource.clip = dialogueThemeBase;
+    //    musicSource.Play();
+    //    secondary1.clip = dialogueThemeLayer;
+    //    secondary1.Play();
+    //    secondary1.volume = .2f;
+    //}
+
+    //public async void PlayScribble() {
+    //    secondary2.clip = scribble;
+    //    secondary2.time = Random.Range(0f, scribble.length);
+    //    secondary2.Play();
+    //    secondary2.volume = 1f;
+    //    await Task.Delay(1500);
+    //    secondary2.Stop();
+    //}
+
+    //private async void PlayBattleMusic() {
+    //    //PlayForestAmbiance();
+    //    await Task.Delay(1000);
+    //    musicSource.clip = battleThemeIntro;
+    //    musicSource.Play();
+    //    musicSource.volume = .2f;
+    //    await Task.Delay(1667);
+    //    musicSource.clip = battleTheme;
+    //    musicSource.Play();
+    //}
+
+    //public void PlayForestAmbiance() {
+    //    secondary1.clip = forestAmbiance;
+    //    secondary1.Play();
+    //    secondary1.volume = 1f;
+    //}
+
+    //public void PlayPenguinAmbiance() {
+    //    if(secondary2.clip == penguinAmbiance) return;
+    //    secondary2.clip = penguinAmbiance;
+    //    secondary2.Play();
+    //    secondary2.volume = 1f;
+    //}
 
     //public void ResetAmbients() {
     //    secondary1.clip = null;

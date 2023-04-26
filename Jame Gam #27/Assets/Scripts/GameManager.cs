@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,8 +26,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _2Image;
     [SerializeField] private GameObject _1Image;
     [SerializeField] private GameObject _MOWImage;
+    
+    [SerializeField] private TMP_Text _WinnerText;
+    [SerializeField] private GameObject _EndButtons;
 
+    [Header("References")]
     public AudioManager audioManager;
+    [SerializeField] Timer timer;
+    public ScoreBar scoreBar;
+    [SerializeField] InSceneSettings settings;
     public bool inGame = false;
 
     private void Awake() 
@@ -45,6 +53,8 @@ public class GameManager : MonoBehaviour
     {
         StartCountdownAnimation();
         _gridManager.OnStartGame();
+        timer.gameObject.SetActive(true);
+        scoreBar.gameObject.SetActive(true);
         await Task.Delay(1000);
         _playerOne.OnGridSetup();
         _playerTwo.OnGridSetup();
@@ -53,6 +63,7 @@ public class GameManager : MonoBehaviour
         _playerTwo.OnCharacterInstantiate();
         await Task.Delay(3000);
         inGame = true;
+        timer.StartTimer();
     }
 
     public void InitPlayers()
@@ -88,5 +99,20 @@ public class GameManager : MonoBehaviour
         LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
         LeanTween.alphaCanvas(_2Image.GetComponent<CanvasGroup>(), 0, 0);
         LeanTween.alphaCanvas(_MOWImage.GetComponent<CanvasGroup>(), 0, 0);
+    }
+
+    public async void EndGame() {
+        inGame = false;
+        settings.gameEnded = true;
+        audioManager.StopMowerIdle(1);
+        audioManager.StopMowerIdle(2);
+        int winner = scoreBar.GetWinner();
+        if (winner == 0) _WinnerText.text = "TIE!";
+        else if (winner == 1) _WinnerText.text = $"{PlayerPrefs.GetString(Player.playerOne.ToString()).ToUpper()} WINS!";
+        else if (winner == 2) _WinnerText.text = $"{PlayerPrefs.GetString(Player.playerTwo.ToString()).ToUpper()} WINS!";
+        _WinnerText.gameObject.SetActive(true);
+        LeanTween.scale(_WinnerText.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 2);
+        await Task.Delay(5000);
+        _EndButtons.SetActive(true);
     }
 }

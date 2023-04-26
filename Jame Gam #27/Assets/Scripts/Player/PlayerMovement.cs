@@ -149,6 +149,8 @@ public class PlayerMovement : MonoBehaviour
         gameManager.audioManager.PlayMowerAction(PlayerNumber);
         tile.tileGraphics.ShowGrassPS();
         await Task.Delay(1000);
+        if (PlayerNumber == 1) gameManager.scoreBar.UpdateLeft();
+        else if (PlayerNumber == 2) gameManager.scoreBar.UpdateRight();
         gridManager.CutGrass(tile.gridX, tile.gridY);
         //SCORE POINTS
         _isActing = false;

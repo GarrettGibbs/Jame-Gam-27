@@ -65,4 +65,10 @@ public class ScoreBar : MonoBehaviour {
             _slider2.value = (_number2 - _number1) / _number2;
         }
     }
+
+    public int GetWinner() {
+        if (_number1 == _number2) return 0;
+        else if (_number1 > _number2) return 2;
+        else return 1;
+    }
 }
