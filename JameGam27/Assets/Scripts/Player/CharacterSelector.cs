@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum Player { playerOne, playerTwo };
@@ -51,6 +52,21 @@ public class CharacterSelector : MonoBehaviour
         //add button handlers
         _nextButton.onClick.AddListener(OnClickNext);
         _previousButton.onClick.AddListener(OnClickPrevious);
+    }
+
+    private void Update() {
+        if (_gameManager.inGame) return;
+        if (Keyboard.current.enterKey.wasPressedThisFrame) {
+            _gameManager.StartGame();
+        } else if (Keyboard.current.aKey.wasPressedThisFrame && player == Player.playerOne) {
+            OnClickPrevious();
+        } else if (Keyboard.current.dKey.wasPressedThisFrame && player == Player.playerOne) {
+            OnClickNext();
+        } else if (Keyboard.current.leftArrowKey.wasPressedThisFrame && player == Player.playerTwo) {
+            OnClickPrevious();
+        } else if (Keyboard.current.rightArrowKey.wasPressedThisFrame && player == Player.playerTwo) {
+            OnClickNext();
+        }
     }
 
     private void OnEnable()

@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
     public ScoreBar scoreBar;
     [SerializeField] InSceneSettings settings;
     public bool inGame = false;
+    public bool gameEnded = false;
+    public bool gameStarted = false;
     public GridManager _gridManager;
 
     private void Awake() 
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
         _playerTwo.OnCharacterInstantiate();
         await Task.Delay(3000);
         inGame = true;
-        settings.gameStarted = true;
+        gameStarted = true;
         timer.StartTimer();
     }
 
@@ -103,7 +105,7 @@ public class GameManager : MonoBehaviour
 
     public async void EndGame(int winningPlayer = 50) {
         inGame = false;
-        settings.gameEnded = true;
+        gameEnded = true;
         audioManager.StopMowerIdle(1);
         audioManager.StopMowerIdle(2);
         audioManager.PlaySound("Victory");

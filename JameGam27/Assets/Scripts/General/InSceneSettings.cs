@@ -15,8 +15,7 @@ public class InSceneSettings : MonoBehaviour
     bool SettingsOpen = false;
 
     readonly string fullscreenKey = "fullscreen";
-    public bool gameEnded = false;
-    public bool gameStarted = false;
+    
 
     private void Start() {
         if(PlayerPrefs.GetInt(fullscreenKey, 1) == 1) {
@@ -28,7 +27,7 @@ public class InSceneSettings : MonoBehaviour
     }
 
     public void ToggleSettingsPanel() {
-        if (gameEnded) return;
+        if (gameManager.gameEnded) return;
         gameManager.audioManager.PlaySound("Switch_Click");
         //if (levelManager.respawning || levelManager.dialogueManager.inConversation || levelManager.gameEnd) return;
         if (!SettingsOpen) {
@@ -37,7 +36,7 @@ public class InSceneSettings : MonoBehaviour
             settingPanel.SetActive(true);
             Time.timeScale = 0;
         } else {
-            if(gameStarted) gameManager.inGame = true;
+            if(gameManager.gameStarted) gameManager.inGame = true;
             SettingsOpen = false;
             settingPanel.SetActive(false);
             Time.timeScale = 1f;
